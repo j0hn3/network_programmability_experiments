@@ -1,0 +1,8 @@
+Links
+- An introduction to the ipaddress module - https://docs.python.org/3.7/howto/ipaddress.html  
+- ipaddress manipultation library - https://docs.python.org/3.7/library/ipaddress.html#ipaddress.ip_address
+- json encoder and decoder - https://docs.python.org/3.7/library/json.html
+- reading and writing output to a json file - https://www.geeksforgeeks.org/reading-and-writing-json-to-a-file-in-python/
+
+Notes
+- TypeError: Object of type IPv4Network is not JSON serializable -> ipaddress objects created using the ipaddress library cannot be written using json, instead save the ip address or network as a string and typecast it later
