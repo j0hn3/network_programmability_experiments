@@ -1,6 +1,8 @@
 Links
 - An introduction to the ipaddress module - https://docs.python.org/3.7/howto/ipaddress.html  
 - ipaddress manipultation library - https://docs.python.org/3.7/library/ipaddress.html#ipaddress.ip_address
+- using the ipaddress module in python - https://www.thepythoncode.com/article/manipulate-ip-addresses-using-ipaddress-module-in-python
+- examplds of ipaddress module in python - https://www.programcreek.com/python/example/86160/ipaddress.IPv4Network
 - json encoder and decoder - https://docs.python.org/3.7/library/json.html
 - reading and writing output to a json file - https://www.geeksforgeeks.org/reading-and-writing-json-to-a-file-in-python/
 
