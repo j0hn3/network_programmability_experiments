@@ -11,8 +11,10 @@ prefix_for_dc_subnets = 26
 #CIDR for host subnet in each DC
 datacenters = ['east', 'west', 'north', 'south', ] 
 #names of datacenters
-output_file_name = 'dc_address_plan_original.json'
-#file name to write results to
+output_file_name = 'dc_address_plan.json'
+#file name to write results
+backup_output_file_name = 'dc_address_plan_original.json'
+#file name to write results
 
 ###script###
 
@@ -37,6 +39,12 @@ for dc in dc_ip_scheme.keys():
 #format is dc_ip_scheme[dc][subnet] =  'available'
 #available assigned as value as it will be changed later when allocated 
 
+dc_ip_scheme['update_log'] = {}
+
 with open(output_file_name, 'w') as file:
     file.write(json.dumps(dc_ip_scheme, indent=4))
-#create the json file dc_address_plan_original.json based on the dc_ip_scheme dictionary
+#create the json file to store the working copy of the address scheme 
+
+with open(backup_output_file_name, 'w') as file:
+    file.write(json.dumps(dc_ip_scheme, indent=4))
+#create the json file to store a backup copy of the address scheme 

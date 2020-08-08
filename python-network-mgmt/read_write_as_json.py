@@ -9,4 +9,4 @@ def open_address_scheme(file_name = 'ip_address_scheme.json'):
 def write_changes_to_address_scheme(address_scheme_dict, file_name = 'ip_address_scheme.json'):
 #take a dictionary containing the updated address scheme, file name and write it to a file in JSON format
     with open(file_name, 'w') as file:
-        file.write(address_scheme_dict)
+        file.write(json.dumps(address_scheme_dict, indent=4))
