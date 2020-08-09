@@ -86,3 +86,8 @@ South DC: {allocation['south']}
 
 now = datetime.datetime.now()
 print(now.strftime('%Y-%m-%d %H:%M:%S'))
+
+
++++++
+dc_vlan_plan = {}
+for item in datacenters
