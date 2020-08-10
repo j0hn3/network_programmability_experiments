@@ -3,10 +3,7 @@
         "east": {
             "supernet": "10.100.0.0/18",
             "IPv4_Addresses": {
-                "10.100.0.0/27": [
-                    "reserved",
-                    "R11111"
-                ],
+                "10.100.0.0/27": "available",
                 "10.100.0.32/27": "available",
                 "10.100.0.64/27": "available",
                 "10.100.0.96/27": "available",
@@ -520,10 +517,7 @@
                 "10.100.63.224/27": "available"
             },
             "VLANS": {
-                "1005": [
-                    "reserved",
-                    "R11111"
-                ],
+                "1005": "available",
                 "1006": "available",
                 "1007": "available",
                 "1008": "available",
@@ -3618,10 +3612,7 @@
         "west": {
             "supernet": "10.100.64.0/18",
             "IPv4_Addresses": {
-                "10.100.64.0/27": [
-                    "reserved",
-                    "R11111"
-                ],
+                "10.100.64.0/27": "available",
                 "10.100.64.32/27": "available",
                 "10.100.64.64/27": "available",
                 "10.100.64.96/27": "available",
@@ -4135,10 +4126,7 @@
                 "10.100.127.224/27": "available"
             },
             "VLANS": {
-                "1005": [
-                    "reserved",
-                    "R11111"
-                ],
+                "1005": "available",
                 "1006": "available",
                 "1007": "available",
                 "1008": "available",
@@ -7233,10 +7221,7 @@
         "north": {
             "supernet": "10.100.128.0/18",
             "IPv4_Addresses": {
-                "10.100.128.0/27": [
-                    "reserved",
-                    "R11111"
-                ],
+                "10.100.128.0/27": "available",
                 "10.100.128.32/27": "available",
                 "10.100.128.64/27": "available",
                 "10.100.128.96/27": "available",
@@ -7750,10 +7735,7 @@
                 "10.100.191.224/27": "available"
             },
             "VLANS": {
-                "1005": [
-                    "reserved",
-                    "R11111"
-                ],
+                "1005": "available",
                 "1006": "available",
                 "1007": "available",
                 "1008": "available",
@@ -10848,10 +10830,7 @@
         "south": {
             "supernet": "10.100.192.0/18",
             "IPv4_Addresses": {
-                "10.100.192.0/27": [
-                    "reserved",
-                    "R11111"
-                ],
+                "10.100.192.0/27": "available",
                 "10.100.192.32/27": "available",
                 "10.100.192.64/27": "available",
                 "10.100.192.96/27": "available",
@@ -11365,10 +11344,7 @@
                 "10.100.255.224/27": "available"
             },
             "VLANS": {
-                "1005": [
-                    "reserved",
-                    "R11111"
-                ],
+                "1005": "available",
                 "1006": "available",
                 "1007": "available",
                 "1008": "available",
@@ -14461,7 +14437,5 @@
             }
         }
     },
-    "update_log": {
-        "R11111": "2020-08-08 20:05:05"
-    }
+    "update_log": {}
 }

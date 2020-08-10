@@ -14,7 +14,7 @@ for sn in supernet.subnets(new_prefix=24):
 
 
   *Without Typecase into String
-  >>> pprint(available_subnets)
+   pprint(available_subnets)
 [IPv4Network('192.168.0.0/24'),
  IPv4Network('192.168.1.0/24'),
  IPv4Network('192.168.2.0/24'),
@@ -33,8 +33,8 @@ dc_ip_scheme = {
  }
 
 
->>> supernet = ipaddress.IPv4Network("10.100.0.0/16")
->>> for s in supernet.subnets(prefixlen_diff=2):
+ supernet = ipaddress.IPv4Network("10.100.0.0/16")
+ for s in supernet.subnets(prefixlen_diff=2):
 ...     print(s)
 ... 
 10.100.0.0/18
@@ -91,3 +91,58 @@ print(now.strftime('%Y-%m-%d %H:%M:%S'))
 +++++
 dc_vlan_plan = {}
 for item in datacenters
+
++++++
+
+from jinja2 import Template
+Template() function to create our template object
+template.render()
+
+
+ from jinja2 import Template
+ ipaddr_template = Template(' {{interface}} has IP address {{ip_address}}') 
+ print(ipaddr_template)
+<Template memory:7fd508a5fe90>
+ interface_1 = ipaddr_template.render(interface='ge-0/0/0', ip_address='192.168.1.1')
+ print(interface_1)
+ ge-0/0/0 has IP address 192.168.1.1
+ print(type(interface_1))
+<type 'unicode'>
+ print(str(interface_1))
+ ge-0/0/0 has IP address 192.168.1.1
+
+
+ try:
+    if os.path.isfile(path):
+        return None # or print and error, or pass etc...
+    else:
+        with open(path, 'w') as outFile:
+            outFile.write(text)
+        except IOError as exception:
+            raise IOError("%s: %s" % (path, exception.strerror))
+
+
+try:
+    os.mkdir(path)
+except FileExistsError:
+
+def write(self, path, text):
+    try:
+        if os.path.isfile(path):
+            return None # or print and error, or pass etc...
+        else:
+            with open(path, 'w') as outFile:
+                outFile.write(text)
+    except IOError as exception:
+        raise IOError("%s: %s" % (path, exception.strerror))
+    return None
+
+def create_folder(path):
+    try:
+        if os.path.isdir(path):
+            pass
+        else:
+            os.makedirs(path)
+    except IOError as exception:
+        raise IOError('%s: %s' % (path, exception.strerror))
+    return None

@@ -1,5 +1,6 @@
 import ipaddress
 import json
+import file_ops
 
 
 ###input Vars to generate DC IP scheme with###
@@ -11,6 +12,8 @@ prefix_for_dc_subnets = 27
 #CIDR for host subnet in each DC
 datacenters = ['east', 'west', 'north', 'south', ] 
 #names of datacenters
+output_folder_path = './dc_address_plan/'
+#define the path were the output files are saved 
 output_file_name = 'dc_address_plan.json'
 #file name to write results
 backup_output_file_name = 'dc_address_plan_original.json'
@@ -54,10 +57,14 @@ for dc in dc_ip_scheme['datacenters'].keys():
 dc_ip_scheme['update_log'] = {}
 #create a new dictionary entry to track updates 
 
-with open(output_file_name, 'w') as file:
-    file.write(json.dumps(dc_ip_scheme, indent=4))
-#create the json file to store the working copy of the address scheme 
+file_ops.create_folder(output_folder_path)
+file_ops.write_files_as_json(dc_ip_scheme, output_folder_path, output_file_name)
+file_ops.write_files_as_json(dc_ip_scheme, output_folder_path, backup_output_file_name)
 
-with open(backup_output_file_name, 'w') as file:
-    file.write(json.dumps(dc_ip_scheme, indent=4))
-#create the json file to store a backup copy of the address scheme 
+#with open(output_file_name, 'w') as file:
+#    file.write(json.dumps(dc_ip_scheme, indent=4))
+##create the json file to store the working copy of the address scheme 
+#
+#with open(backup_output_file_name, 'w') as file:
+#    file.write(json.dumps(dc_ip_scheme, indent=4))
+##create the json file to store a backup copy of the address scheme 

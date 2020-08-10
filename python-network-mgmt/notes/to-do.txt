@@ -1,0 +1,13 @@
+Overall 
+- generate configurations for each Allocation (jinja2 templates ??? )
+- format of req #s being taken as input
+- automatic configuration for DC devices (paramiko and test device???)
+- generate config for supernets at each DC and add them to routing (((as a summary address ???)
+
+template_for_configs branch
+- update reserve_dc_subnet to read from sub directories
+    - add open file to file_ops.py
+- add code to output configs for each dc (jinja2 or strings ???)
+    - create route-generator module ???
+    - assume 2x core switces (2x devices per DC) that will need VLANs advertised into routing protocol
+    - new subfolder for configuration storage with file names for each req and timestamp ???
