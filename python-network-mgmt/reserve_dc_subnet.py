@@ -1,5 +1,6 @@
 import json
 import datetime
+import file_ops
 
 def get_req():
     req = int(input("Enter a Requrement number for this allocation: "))
@@ -76,13 +77,18 @@ def print_allocation(req, ip_allocation, vlan_allocation):
 if __name__ == "__main__":
     req = get_req()
     #get a requirement number for the allocation
-    dc_address_plan = open_address_scheme()
-    #open the file containaining the address plan for the dc
+
+    dc_address_plan = file_ops.read_json_files('./dc_address_plan/', 'dc_address_plan.json')
+    #open the file containaining the address plan for the dc usinf file_ops
+
     dc_address_plan, ip_allocation = reserve_subnet( dc_address_plan, req )
     #reserve the first available subnet at each DC
+
     dc_address_plan, vlan_allocation = reserve_vlan( dc_address_plan, req )
-    print(vlan_allocation)
-    dc_address_plan, save_address_scheme(dc_address_plan, req)
-    #save the updated address plan for the dc
+    #reserve VLANS in the address plan
+
+    file_ops.write_files_as_json(dc_address_plan, './dc_address_plan/', 'dc_address_plan.json')
+    #save the updated address plan for the dc using file_ops
+
     print_allocation(req, ip_allocation, vlan_allocation)
     #print the reserved subnets
