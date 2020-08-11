@@ -19,4 +19,13 @@ def write_files_as_json (output_file_data, output_file_path, output_file_name):
     #create a full name for the file and path, note path must end in / for linux systems 
     with open(output_file_and_path, 'w') as file:
         file.write(json.dumps(output_file_data, indent=4))
+    file.close()
 
+def read_json_files(input_file_path, input_file_name): 
+#this function will open a .json file and return it as a dictionary
+    input_file_and_path = input_file_path + input_file_name
+    #create a full name for the file and path, note path must end in / for linux systems 
+    with open(input_file_and_path, 'r') as file:
+        opened_file = json.load(file)
+    file.close()
+    return opened_file
