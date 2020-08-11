@@ -43,8 +43,6 @@ def append_update_log(dc_address_plan, req, username ):
     dc_address_plan['update_log'][req] = {'time': now, 'user_id': username}
     return dc_address_plan
 
-
-
 def print_allocation(req, ip_allocation, vlan_allocation):
     print(f"""
     ########################################################
@@ -75,6 +73,7 @@ if __name__ == "__main__":
 
     username = pwd.getpwuid(os.getuid()).pw_name
     #get the name of the user logged into the system running this script
+    #ref: https://stackoverflow.com/questions/842059/is-there-a-portable-way-to-get-the-current-username-in-python
 
     dc_address_plan = file_ops.read_json_files('./dc_address_plan/', 'dc_address_plan.json')
     #open the file containaining the address plan for the dc usinf file_ops

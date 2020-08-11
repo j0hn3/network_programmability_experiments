@@ -7,7 +7,10 @@
                     "reserved",
                     "R11111"
                 ],
-                "10.100.0.32/27": "available",
+                "10.100.0.32/27": [
+                    "reserved",
+                    "R12345"
+                ],
                 "10.100.0.64/27": "available",
                 "10.100.0.96/27": "available",
                 "10.100.0.128/27": "available",
@@ -524,7 +527,10 @@
                     "reserved",
                     "R11111"
                 ],
-                "1006": "available",
+                "1006": [
+                    "reserved",
+                    "R12345"
+                ],
                 "1007": "available",
                 "1008": "available",
                 "1009": "available",
@@ -3622,7 +3628,10 @@
                     "reserved",
                     "R11111"
                 ],
-                "10.100.64.32/27": "available",
+                "10.100.64.32/27": [
+                    "reserved",
+                    "R12345"
+                ],
                 "10.100.64.64/27": "available",
                 "10.100.64.96/27": "available",
                 "10.100.64.128/27": "available",
@@ -4139,7 +4148,10 @@
                     "reserved",
                     "R11111"
                 ],
-                "1006": "available",
+                "1006": [
+                    "reserved",
+                    "R12345"
+                ],
                 "1007": "available",
                 "1008": "available",
                 "1009": "available",
@@ -7237,7 +7249,10 @@
                     "reserved",
                     "R11111"
                 ],
-                "10.100.128.32/27": "available",
+                "10.100.128.32/27": [
+                    "reserved",
+                    "R12345"
+                ],
                 "10.100.128.64/27": "available",
                 "10.100.128.96/27": "available",
                 "10.100.128.128/27": "available",
@@ -7754,7 +7769,10 @@
                     "reserved",
                     "R11111"
                 ],
-                "1006": "available",
+                "1006": [
+                    "reserved",
+                    "R12345"
+                ],
                 "1007": "available",
                 "1008": "available",
                 "1009": "available",
@@ -10852,7 +10870,10 @@
                     "reserved",
                     "R11111"
                 ],
-                "10.100.192.32/27": "available",
+                "10.100.192.32/27": [
+                    "reserved",
+                    "R12345"
+                ],
                 "10.100.192.64/27": "available",
                 "10.100.192.96/27": "available",
                 "10.100.192.128/27": "available",
@@ -11369,7 +11390,10 @@
                     "reserved",
                     "R11111"
                 ],
-                "1006": "available",
+                "1006": [
+                    "reserved",
+                    "R12345"
+                ],
                 "1007": "available",
                 "1008": "available",
                 "1009": "available",
@@ -14464,6 +14488,10 @@
     "update_log": {
         "R11111": {
             "time": "2020-08-10 20:46:10",
+            "user_id": "jdwright"
+        },
+        "R12345": {
+            "time": "2020-08-10 21:16:08",
             "user_id": "jdwright"
         }
     }

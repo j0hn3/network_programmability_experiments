@@ -146,3 +146,34 @@ def create_folder(path):
     except IOError as exception:
         raise IOError('%s: %s' % (path, exception.strerror))
     return None
+
+
+bl = '\n'
+names = ['john', 'jordan', 'steve']
+greeting_list = ''
+for name in names:
+    greeting_list += f"Hello {name}"
+    greeting_list += bl
+
+print(greeting_list)
+>>> print(greeting_list)
+Hello john
+Hello jordan
+Hello steve
+
+
+
+bl = '\n'
+names = ['john', 'jordan', 'steve']
+greeting_list = ''
+for name in names:
+    greeting_list += f"""
+    Hello {name.title()}"""
+
+print(greeting_list)
+
+>>> print(greeting_list)
+
+    Hello john
+    Hello jordan
+    Hello steve
