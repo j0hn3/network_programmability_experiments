@@ -1,17 +1,13 @@
 import json
 import datetime
+import pwd
+import os
 import file_ops
 
 def get_req():
     req = int(input("Enter a Requrement number for this allocation: "))
     req = "R" + str(req)
-    return req
-
-def open_address_scheme(file_name = 'dc_address_plan.json'):
-#open a a file containing the ip address scheme in JSON format and return a dictionary
-    with open(file_name, 'r') as file:
-        dc_address_plan = json.load(file)
-    return dc_address_plan
+    return req    
 
 def reserve_subnet( dc_address_plan, req ):
     ip_allocation = {}
@@ -41,12 +37,11 @@ def reserve_vlan( dc_address_plan, req ):
     return dc_address_plan, vlan_allocation
 
 
-def save_address_scheme(dc_address_plan, req, file_name = 'dc_address_plan.json'):
+def append_update_log(dc_address_plan, req, username ):
     now = datetime.datetime.now()
     now = now.strftime('%Y-%m-%d %H:%M:%S')
-    dc_address_plan['update_log'][req] = now
-    with open(file_name, 'w') as file:
-        file.write(json.dumps(dc_address_plan, indent=4))
+    dc_address_plan['update_log'][req] = {'time': now, 'user_id': username}
+    return dc_address_plan
 
 
 
@@ -78,6 +73,9 @@ if __name__ == "__main__":
     req = get_req()
     #get a requirement number for the allocation
 
+    username = pwd.getpwuid(os.getuid()).pw_name
+    #get the name of the user logged into the system running this script
+
     dc_address_plan = file_ops.read_json_files('./dc_address_plan/', 'dc_address_plan.json')
     #open the file containaining the address plan for the dc usinf file_ops
 
@@ -86,6 +84,8 @@ if __name__ == "__main__":
 
     dc_address_plan, vlan_allocation = reserve_vlan( dc_address_plan, req )
     #reserve VLANS in the address plan
+
+    dc_address_plan = append_update_log(dc_address_plan, req, username)
 
     file_ops.write_files_as_json(dc_address_plan, './dc_address_plan/', 'dc_address_plan.json')
     #save the updated address plan for the dc using file_ops
