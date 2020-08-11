@@ -7,9 +7,5 @@ Overall
 - write unit testing for scripts  
 
 template_for_configs branch
-- update reserve_dc_subnet to read from sub directories
-    - add open file to file_ops.py
-- add code to output configs for each dc (jinja2 or strings ???)
-    - create route-generator module ???
-    - assume 2x core switces (2x devices per DC) that will need VLANs advertised into routing protocol
-    - new subfolder for configuration storage with file names for each req and timestamp ???
+- test config_ops
+- add config_ops to reserve_dc_subnet

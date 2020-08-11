@@ -61,10 +61,3 @@ file_ops.create_folder(output_folder_path)
 file_ops.write_files_as_json(dc_ip_scheme, output_folder_path, output_file_name)
 file_ops.write_files_as_json(dc_ip_scheme, output_folder_path, backup_output_file_name)
 
-#with open(output_file_name, 'w') as file:
-#    file.write(json.dumps(dc_ip_scheme, indent=4))
-##create the json file to store the working copy of the address scheme 
-#
-#with open(backup_output_file_name, 'w') as file:
-#    file.write(json.dumps(dc_ip_scheme, indent=4))
-##create the json file to store a backup copy of the address scheme 
