@@ -7,5 +7,4 @@ Overall
 - write unit testing for scripts  
 
 template_for_configs branch
-- test config_ops
 - add config_ops to reserve_dc_subnet

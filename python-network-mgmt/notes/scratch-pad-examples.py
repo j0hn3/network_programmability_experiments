@@ -177,3 +177,43 @@ print(greeting_list)
     Hello john
     Hello jordan
     Hello steve
+
+
+{vlan_allocation[{dc}]}
+
+dc = 'east'
+subnet = '10.100.0.32/27'
+req = 'R1234'
+vlan_allocation = {'east': '1006'}
+int_dc = vlan_allocation[dc]
+
+ip_template = f"""
+    ###Datacenter {dc}
+    
+    #{dc}.rtr.01
+
+    interface 1/1/1
+    ip address {subnet}
+    description {req}
+    no shutdown
+
+    router ospf 100
+    network {subnet}
+
+    ip prefix-list DATACENTER_ACTIVE_SUBNETS add {subnet}
+    
+    #{dc}.rtr.02
+
+    interface vlan {int_dc}
+    ip address {subnet}
+    description {req}
+    no shutdown
+
+    router ospf 100
+    network {subnet}
+
+    ip prefix-list DATACENTER_{dc.upper()}_ACTIVE_SUBNETS add {subnet}
+
+    ++++++++++++++++++++++++++++++++
+    
+    """
