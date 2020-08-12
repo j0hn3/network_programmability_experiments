@@ -1,0 +1,8 @@
+Overall 
+- generate configurations for each Allocation (jinja2 templates ??? )
+- format of req #s being taken as input
+- automatic configuration for DC devices (paramiko and test device???)
+- generate config for supernets at each DC and add them to routing (((as a summary address ???)
+- store all user input as a configuration file wtih a specific methiod to capoture in
+- write unit testing for scripts  
+

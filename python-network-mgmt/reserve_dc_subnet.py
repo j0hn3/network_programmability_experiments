@@ -1,16 +1,15 @@
 import json
 import datetime
+import pwd
+import os
+import file_ops
+import config_ops
+import print_ops
 
 def get_req():
     req = int(input("Enter a Requrement number for this allocation: "))
     req = "R" + str(req)
-    return req
-
-def open_address_scheme(file_name = 'dc_address_plan.json'):
-#open a a file containing the ip address scheme in JSON format and return a dictionary
-    with open(file_name, 'r') as file:
-        dc_address_plan = json.load(file)
-    return dc_address_plan
+    return req    
 
 def reserve_subnet( dc_address_plan, req ):
     ip_allocation = {}
@@ -40,49 +39,51 @@ def reserve_vlan( dc_address_plan, req ):
     return dc_address_plan, vlan_allocation
 
 
-def save_address_scheme(dc_address_plan, req, file_name = 'dc_address_plan.json'):
+def append_update_log(dc_address_plan, req, username ):
     now = datetime.datetime.now()
     now = now.strftime('%Y-%m-%d %H:%M:%S')
-    dc_address_plan['update_log'][req] = now
-    with open(file_name, 'w') as file:
-        file.write(json.dumps(dc_address_plan, indent=4))
-
-
-
-def print_allocation(req, ip_allocation, vlan_allocation):
-    print(f"""
-    ########################################################
-    For {req} you have reserved the following address space: 
-    
-    East DC 
-    Subnet: {ip_allocation['east']} 
-    VLAN: {vlan_allocation['east']}
-
-    West DC 
-    Subnet: {ip_allocation['west']}
-    VLAN: {vlan_allocation['west']}
-
-    North DC 
-    Subnet: {ip_allocation['north']}
-    VLAN: {vlan_allocation['north']} 
-
-    South DC
-    Subnet: {ip_allocation['south']}
-    VLAN: {vlan_allocation['south']}
-    ########################################################
-    """)
+    dc_address_plan['update_log'][req] = {'time': now, 'user_id': username}
+    return dc_address_plan
 
 
 if __name__ == "__main__":
     req = get_req()
     #get a requirement number for the allocation
-    dc_address_plan = open_address_scheme()
-    #open the file containaining the address plan for the dc
+
+    username = pwd.getpwuid(os.getuid()).pw_name
+    #get the name of the user logged into the system running this script
+    #ref: https://stackoverflow.com/questions/842059/is-there-a-portable-way-to-get-the-current-username-in-python
+
+    dc_address_plan = file_ops.read_json_files('./dc_address_plan/', 'dc_address_plan.json')
+    #open the file containaining the address plan for the dc usinf file_ops
+
     dc_address_plan, ip_allocation = reserve_subnet( dc_address_plan, req )
     #reserve the first available subnet at each DC
+
     dc_address_plan, vlan_allocation = reserve_vlan( dc_address_plan, req )
-    print(vlan_allocation)
-    dc_address_plan, save_address_scheme(dc_address_plan, req)
-    #save the updated address plan for the dc
-    print_allocation(req, ip_allocation, vlan_allocation)
-    #print the reserved subnets
+    #reserve VLANS in the address plan
+
+    dc_address_plan = append_update_log(dc_address_plan, req, username)
+    #update the update_log in the address plan for the allocation just made
+
+    file_ops.write_files_as_json(dc_address_plan, './dc_address_plan/', 'dc_address_plan.json')
+    #save the updated address plan for the dc using file_ops
+
+    print_ops.print_allocation(req, ip_allocation, vlan_allocation, './dc_network_configs/')
+    #print the reservations for the user
+
+    vlan_config = config_ops.vlan_configs(vlan_allocation, req)
+    ip_config = config_ops.ip_configs(ip_allocation, vlan_allocation, req)
+    #generate configurations based on the allocations
+
+    file_ops.create_folder('./dc_network_configs/')
+    ip_config_file_name = req
+    ip_config_file_name += '_ip_config.txt'
+    #assemble file name for ip_configs
+    file_ops.write_string('./dc_network_configs/', ip_config_file_name, ip_config)
+
+    vlan_config_file_name = req
+    vlan_config_file_name += '_vlan_config.txt'
+    #assemble file name for vlan_configs
+    file_ops.write_string('./dc_network_configs/', vlan_config_file_name, vlan_config)
+    #write the configurations to the dc_configs directory

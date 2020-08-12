@@ -1,0 +1,117 @@
+
+    ###Datacenter east
+    
+    #east.rtr.01
+
+    interface 1005
+    ip address 10.100.0.0/27
+    description R11111
+    no shutdown
+
+    router ospf 100
+    network 10.100.0.0/27
+
+    ip prefix-list DATACENTER_EAST_ACTIVE_SUBNETS add 10.100.0.0/27
+    
+    #east.rtr.02
+
+    interface 1005
+    ip address 10.100.0.0/27
+    description R11111
+    no shutdown
+
+    router ospf 100
+    network 10.100.0.0/27
+
+    ip prefix-list DATACENTER_EAST_ACTIVE_SUBNETS add 10.100.0.0/27
+
+    ++++++++++++++++++++++++++++++++
+    
+    
+    ###Datacenter west
+    
+    #west.rtr.01
+
+    interface 1005
+    ip address 10.100.64.0/27
+    description R11111
+    no shutdown
+
+    router ospf 100
+    network 10.100.64.0/27
+
+    ip prefix-list DATACENTER_WEST_ACTIVE_SUBNETS add 10.100.64.0/27
+    
+    #west.rtr.02
+
+    interface 1005
+    ip address 10.100.64.0/27
+    description R11111
+    no shutdown
+
+    router ospf 100
+    network 10.100.64.0/27
+
+    ip prefix-list DATACENTER_WEST_ACTIVE_SUBNETS add 10.100.64.0/27
+
+    ++++++++++++++++++++++++++++++++
+    
+    
+    ###Datacenter north
+    
+    #north.rtr.01
+
+    interface 1005
+    ip address 10.100.128.0/27
+    description R11111
+    no shutdown
+
+    router ospf 100
+    network 10.100.128.0/27
+
+    ip prefix-list DATACENTER_NORTH_ACTIVE_SUBNETS add 10.100.128.0/27
+    
+    #north.rtr.02
+
+    interface 1005
+    ip address 10.100.128.0/27
+    description R11111
+    no shutdown
+
+    router ospf 100
+    network 10.100.128.0/27
+
+    ip prefix-list DATACENTER_NORTH_ACTIVE_SUBNETS add 10.100.128.0/27
+
+    ++++++++++++++++++++++++++++++++
+    
+    
+    ###Datacenter south
+    
+    #south.rtr.01
+
+    interface 1005
+    ip address 10.100.192.0/27
+    description R11111
+    no shutdown
+
+    router ospf 100
+    network 10.100.192.0/27
+
+    ip prefix-list DATACENTER_SOUTH_ACTIVE_SUBNETS add 10.100.192.0/27
+    
+    #south.rtr.02
+
+    interface 1005
+    ip address 10.100.192.0/27
+    description R11111
+    no shutdown
+
+    router ospf 100
+    network 10.100.192.0/27
+
+    ip prefix-list DATACENTER_SOUTH_ACTIVE_SUBNETS add 10.100.192.0/27
+
+    ++++++++++++++++++++++++++++++++
+    
+    

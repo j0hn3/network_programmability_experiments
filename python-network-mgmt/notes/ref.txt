@@ -6,13 +6,8 @@ Links
 - json encoder and decoder - https://docs.python.org/3.7/library/json.html
 - reading and writing output to a json file - https://www.geeksforgeeks.org/reading-and-writing-json-to-a-file-in-python/
 - datetime examples - https://www.tutorialspoint.com/How-to-print-current-date-and-time-using-Python
-
+- saving files to a sub directory - https://stackoverflow.com/questions/42255753/saving-files-to-a-subdirectory
 
 Notes
 - TypeError: Object of type IPv4Network is not JSON serializable -> ipaddress objects created using the ipaddress library cannot be written using json, instead save the ip address or network as a string and typecast it later
 
-To Do 
-- Return an Allocation
-- generate configurations for each Allocation (jinja2 templates)
-- vlans tracking and reservation 
-- format of req #s being taken as input
