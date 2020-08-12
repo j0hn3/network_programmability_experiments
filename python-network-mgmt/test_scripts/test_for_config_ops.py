@@ -15,8 +15,8 @@ vlan_allocation = {
 req = "R1234"
 
 import config_ops
-vlan_config = config_ops(vlan_allocation, 'req)
-ip_config = config_ops.ip_configs(ip_allocation, vlan_allocation, 'req)
+vlan_config = config_ops(vlan_allocation, req)
+ip_config = config_ops.ip_configs(ip_allocation, vlan_allocation, req)
 
 print(vlan_config)
 print("\n\n\n")

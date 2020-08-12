@@ -6,5 +6,3 @@ Overall
 - store all user input as a configuration file wtih a specific methiod to capoture in
 - write unit testing for scripts  
 
-template_for_configs branch
-- add config_ops to reserve_dc_subnet

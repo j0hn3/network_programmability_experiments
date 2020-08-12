@@ -3,6 +3,8 @@ import datetime
 import pwd
 import os
 import file_ops
+import config_ops
+import print_ops
 
 def get_req():
     req = int(input("Enter a Requrement number for this allocation: "))
@@ -43,29 +45,6 @@ def append_update_log(dc_address_plan, req, username ):
     dc_address_plan['update_log'][req] = {'time': now, 'user_id': username}
     return dc_address_plan
 
-def print_allocation(req, ip_allocation, vlan_allocation):
-    print(f"""
-    ########################################################
-    For {req} you have reserved the following address space: 
-    
-    East DC 
-    Subnet: {ip_allocation['east']} 
-    VLAN: {vlan_allocation['east']}
-
-    West DC 
-    Subnet: {ip_allocation['west']}
-    VLAN: {vlan_allocation['west']}
-
-    North DC 
-    Subnet: {ip_allocation['north']}
-    VLAN: {vlan_allocation['north']} 
-
-    South DC
-    Subnet: {ip_allocation['south']}
-    VLAN: {vlan_allocation['south']}
-    ########################################################
-    """)
-
 
 if __name__ == "__main__":
     req = get_req()
@@ -85,9 +64,26 @@ if __name__ == "__main__":
     #reserve VLANS in the address plan
 
     dc_address_plan = append_update_log(dc_address_plan, req, username)
+    #update the update_log in the address plan for the allocation just made
 
     file_ops.write_files_as_json(dc_address_plan, './dc_address_plan/', 'dc_address_plan.json')
     #save the updated address plan for the dc using file_ops
 
-    print_allocation(req, ip_allocation, vlan_allocation)
-    #print the reserved subnets
+    print_ops.print_allocation(req, ip_allocation, vlan_allocation, './dc_network_configs/')
+    #print the reservations for the user
+
+    vlan_config = config_ops.vlan_configs(vlan_allocation, req)
+    ip_config = config_ops.ip_configs(ip_allocation, vlan_allocation, req)
+    #generate configurations based on the allocations
+
+    file_ops.create_folder('./dc_network_configs/')
+    ip_config_file_name = req
+    ip_config_file_name += '_ip_config.txt'
+    #assemble file name for ip_configs
+    file_ops.write_string('./dc_network_configs/', ip_config_file_name, ip_config)
+
+    vlan_config_file_name = req
+    vlan_config_file_name += '_vlan_config.txt'
+    #assemble file name for vlan_configs
+    file_ops.write_string('./dc_network_configs/', vlan_config_file_name, vlan_config)
+    #write the configurations to the dc_configs directory
