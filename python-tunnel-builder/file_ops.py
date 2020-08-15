@@ -1,5 +1,8 @@
 import json
 import os
+import pwd
+import datetime
+
 
 def create_folder(path):
 #ref: https://stackoverflow.com/questions/42255753/saving-files-to-a-subdirectory
@@ -15,6 +18,10 @@ def create_folder(path):
 
 def write_files_as_json (output_file_data, output_file_path, output_file_name):
 #write a data (output_file_data) to a path (output_file_path & output_file_name) in json format
+
+    create_folder(output_file_path)
+    #create any folders in the output file path if needed 
+
     output_file_and_path = output_file_path + output_file_name
     #create a full name for the file and path, note path must end in / for linux systems 
     with open(output_file_and_path, 'w') as file:
@@ -35,3 +42,10 @@ def write_string(output_file_path, output_file_name, output_file_data):
     with open(output_file_and_path, 'w') as file:
         file.write(output_file_data)
     file.close()
+
+def gen_timestamp():
+    now = datetime.datetime.now()
+    now = now.strftime('%Y-%m-%d %H:%M:%S')
+    user_id = pwd.getpwuid(os.getuid()).pw_name
+    return user_id, now
+
