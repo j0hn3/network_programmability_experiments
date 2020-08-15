@@ -2,7 +2,7 @@
 
 import ipaddress
 import tunnel_addr_plan_input_vars
-import file_ops
+import tunnel_file_ops
 
 if __name__ == "__main__":
  
@@ -21,13 +21,13 @@ if __name__ == "__main__":
     #the value will be 'available'
     #tunnel_address_plan {subnets : { subnet as string : 'available' }
 
-    user_id, now = file_ops.gen_timestamp()
+    user_id, now = tunnel_file_ops.gen_timestamp()
     #get the userid and timestamp using file_ops
     tunnel_address_plan['update_log']['created'] = {'user': user_id, 'timestamp': now}
     #update the tunnel_address_plan['update_log'] dict with who created the file and when
     #tunnel_address_plan{ update_log{req/created :{user : userid, timestamp : date & time }}}
 
-    file_ops.write_files_as_json( 
+    tunnel_file_ops.write_files_as_json( 
         tunnel_address_plan, 
         tunnel_addr_plan_input_vars.output_file_directory,
         tunnel_addr_plan_input_vars.output_file_name,
