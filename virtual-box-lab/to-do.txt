@@ -9,7 +9,9 @@ DC Nnetwork mangement
 tunnel Builder
 - generate configurations for each Allocation ( convert from fstring to jinja2 templates )
 - write unit testing for scripts  
-- automatic configuration for DC devices (paramiko and test device???)
+- automatic configuration for DC devices (paramiko and test device???), 
+  + include underlay and overlay verification
+- add IPSEC, routing to tunnels 
 
 Other Thoughts
 - backup/restore lab devices to base config 
@@ -17,3 +19,4 @@ Other Thoughts
 - verify connectivity and local machine routes before attempting to connect via paramiko
 - pull down git repo and run specific scripts from repo against devices 
 - script against device APIs 
+- program to add JUNOS firewall policies 
