@@ -1,0 +1,14 @@
+#eosv-rtr-01
+hostname eosv-rtr-01
+username lab-admin privilege 15 role network-admin secret sha512 $6$wvVZIXIDad17HCnQ$tTP41jWee9a7DKsULH5V9QtuOCl8vZjiTb2b9PJWx7O13LZvqIsxB2c69oto5fSR6T1Ia19nv36wRImctLwT71
+interface Ethernet1
+   description VBOXNET2
+   no switchport
+   ip address 10.100.0.133/24
+interface Loopback0
+   description DEVICE-MGMT
+   ip address 172.16.255.133/24
+interface Management1
+   description VBOXNET1
+   ip address 192.168.255.133/24
+ip routing
