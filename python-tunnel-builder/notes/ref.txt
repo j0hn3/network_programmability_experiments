@@ -1,3 +1,7 @@
 import vars from a file - https://stackoverflow.com/questions/17255737/importing-variables-from-another-file
 dict comprehnsion - https://www.programiz.com/python-programming/dictionary-comprehension
-netmiko - https://ktbyers.github.io/netmiko/#installation
+netmiko - https://pynet.twb-tech.com/blog/automation/netmiko.html
+
+
+
+ssh -s lab-admin@192.168.255.131 netconf 

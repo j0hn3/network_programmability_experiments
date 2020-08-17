@@ -20,3 +20,4 @@ Other Thoughts
 - pull down git repo and run specific scripts from repo against devices 
 - script against device APIs 
 - program to add JUNOS firewall policies 
+- use ncclient to build netconf configurations

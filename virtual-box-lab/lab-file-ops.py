@@ -48,3 +48,4 @@ def gen_timestamp():
     now = now.strftime('%Y-%m-%d %H:%M:%S')
     user_id = pwd.getpwuid(os.getuid()).pw_name
     return user_id, now
+

@@ -1,0 +1,2 @@
+netmiko Supported Platforms: https://github.com/ktbyers/netmiko/blob/develop/EXAMPLES.md#available-device-types
+
