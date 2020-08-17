@@ -3,7 +3,7 @@ from getpass import getpass
 
 cisco1 = {
     "device_type": "cisco_ios",
-    "host": "192.168.255.254",
+    "host": "192.168.255.131",
     "username": getpass(prompt='Username: ', stream=None),
     "password": getpass(),
 }
