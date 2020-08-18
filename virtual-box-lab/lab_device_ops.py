@@ -31,3 +31,27 @@ def close_ssh_con(inventory):
             inventory[device]['ssh_con'] = False
     
     return inventory
+
+def device_run_show_cmd_raw_output(inventory, device, command):
+#run a show command against a device and return the outout as raw text
+    output = inventory['device']['ssh_con'].send_command(command)
+    inventory['device'][command] = output
+    return inventory
+
+def device_run_show_cmd_textfsm_output(inventory, device, command):
+#run a show command against a device and return the output parsed using textfsm    
+    output = inventory['device']['ssh_con'].send_command(command, use_textfsm=True)
+    inventory['device'][command] = output
+    return inventory
+
+def type_run_show_cmd_raw_output(inventory, device_type, command):
+#run a show commands against a type of device (cisco_ios etc) 
+#return the raw output
+    for dev in inventory.keys():
+        if device_type == inventory[dev]['netmiko-type']:
+            if inventory[dev]['ssh_con'] != False:
+            #if the ssh connection has not failed and is = False
+                output = inventory[dev]['ssh_con'].send_command(command)
+                inventory[dev][command] = output
+    return inventory
+

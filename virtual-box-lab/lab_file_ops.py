@@ -38,14 +38,18 @@ def read_json_files(input_file_path, input_file_name):
     return opened_file
 
 def write_string(output_file_path, output_file_name, output_file_data):
+    create_folder(output_file_path)
+    #create any folders in the output file path if needed 
+    
     output_file_and_path = output_file_path + output_file_name
+    #create a full name for the file and path, note path must end in / for linux systems 
     with open(output_file_and_path, 'w') as file:
         file.write(output_file_data)
     file.close()
 
 def gen_timestamp():
     now = datetime.datetime.now()
-    now = now.strftime('%Y-%m-%d %H:%M:%S')
+    now = now.strftime('%Y-%m-%d_%H-%M-%S')
     user_id = pwd.getpwuid(os.getuid()).pw_name
     return user_id, now
 
