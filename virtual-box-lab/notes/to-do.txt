@@ -17,6 +17,8 @@ virutal-box-lab
 - restore lab devices to base config (may need to update backup parsing to remove first few lines )
   + backup is complete
 - terraform to build virutal box devices
+- push gold config from files to device
+- load gold config on lab devices (backup then load gold)
 
 
 Other Thoughts
