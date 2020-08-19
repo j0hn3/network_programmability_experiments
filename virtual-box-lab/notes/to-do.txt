@@ -14,11 +14,11 @@ tunnel Builder
 - add IPSEC, routing to tunnels ??? 
 
 virutal-box-lab
-- restore lab devices to base config (may need to update backup parsing to remove first few lines )
-  + backup is complete
+- restore lab devices to base config (use gold config on device) 
+  + for cisco ios use configure replace command
+  + push gold config from files to device
+  + load gold config on lab devices (backup then load gold)
 - terraform to build virutal box devices
-- push gold config from files to device
-- load gold config on lab devices (backup then load gold)
 
 
 Other Thoughts
