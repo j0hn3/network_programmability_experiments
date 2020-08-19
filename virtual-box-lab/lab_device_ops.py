@@ -3,9 +3,6 @@ from netmiko import ConnectHandler
 def open_ssh_con(inventory):
 #open an ssh connection to each device marked as reachable in the inventory and ...
 #return and updated inventory
-    
-    #inventory = ping_device(inventory)
-    ##verify which lab devices are reachable using the ping_device function
 
     for device in inventory.keys():
         device_info = {
@@ -18,8 +15,17 @@ def open_ssh_con(inventory):
             net_connect = ConnectHandler(**device_info)
         except:
             net_connect = False
+        #try to connect to the device via ssh, if it fails mark net_connect as false 
+        #this is used later to determine if the ssh connecton is alive or not
+        
+        try:
+            net_connect.enable()
+        except:
+            pass
+        #try to enter privilidged mode if the device type supports it
 
         inventory[device]['ssh_con'] = net_connect
+
     return inventory
 
 def close_ssh_con(inventory):

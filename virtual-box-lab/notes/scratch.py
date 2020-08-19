@@ -218,3 +218,22 @@ test3 = test2.replace('  !\n', '')
 test = test.strip()
 test2 =  re.sub(r'.*!.?\n', '', test)
 test3 =  re.sub(r'(\n)(\n+)', '\n', test2)
+
+
+eos1 = {
+    "device_type": "arista_eos",
+    "host": "192.168.255.133",
+    "username": 'lab-admin',
+    "password": 'En@ble123',
+}
+
+try:
+    net_connect = ConnectHandler(**eos1)
+except:
+    print("Failed")
+
+print(net_connect.find_prompt())
+
+command = "show ip int brief"
+with ConnectHandler(**cisco1) as net_connect:
+    output = net_connect.send_command(command)

@@ -33,5 +33,26 @@ if __name__ == "__main__":
                 #replace multiple empty lines with a single one 
                 lab_file_ops.write_string(output_file_path, output_file_name, output_file_data)
                 #write the output to a file using file_ops
+
+    lab_inventory = lab_device_ops.type_run_show_cmd_raw_output(lab_inventory, 'arista_eos', 'show run')
+    #backup the running configuraiton of arista_eos devices via show run
+    #save the output in the devices folder in device_info/device_configs 
+    #the name of the file will be unique and use a timestamp for when the config was saved
+    for dev in lab_inventory.keys():
+        user_id, now = lab_file_ops.gen_timestamp()
+        if lab_inventory[dev]['netmiko-type'] == 'arista_eos':
+            if lab_inventory[dev]['ssh_con'] != False:
+            #for every lab device of type arista_eos with an active ssh connection 
+                output_file_path = f'./device_info/device_configs/{dev}/'
+                #path to save file
+                output_file_name = f'{dev}_{now}.txt'
+                #create file name based on device name and timestamp
+                output_file_data = lab_inventory[dev]['show run']
+                #create a string to hold the output for formatting
+                output_file_data= output_file_data.strip()
+                #strip off whitespace at the beginning and end of the file
+                lab_file_ops.write_string(output_file_path, output_file_name, output_file_data)
+                #write the output to a file using file_ops
+
     lab_device_ops.close_ssh_con(lab_inventory)
     #close all open ssh sessions
