@@ -1,3 +1,5 @@
+#this was added into lab_device_ops as a function
+
 #!/usr/local/bin/python3.7
 import lab_file_ops
 import lab_device_ops
