@@ -1,0 +1,64 @@
+Building configuration...
+Current configuration : 1624 bytes
+! Last configuration change at 01:07:08 UTC Wed Aug 19 2020
+version 15.5
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+no platform punt-keepalive disable-kernel-core
+platform console auto
+hostname csr1000v-rtr-01
+boot-start-marker
+boot-end-marker
+no logging console
+enable secret 5 $1$jhyg$exXwuHzBoHQG/ESDsykU81
+no aaa new-model
+no ip domain lookup
+ip domain name lab.net
+subscriber templating
+multilink bundle-name authenticated
+password encryption aes
+license udi pid CSR1000V sn 9ORUR09ZOI3
+spanning-tree extend system-id
+username lab-admin privilege 15 password 7 013608245907035E731F
+redundancy
+ip ssh version 2
+interface Loopback0
+ description DEVICE-MGMT
+ ip address 172.16.255.131 255.255.255.0
+interface GigabitEthernet1
+ description VBOXNET1
+ ip address 192.168.255.131 255.255.255.0
+ negotiation auto
+interface GigabitEthernet2
+ description VBOXNET2
+ ip address 10.100.0.131 255.255.255.0
+ negotiation auto
+virtual-service csr_mgmt
+no ip forward-protocol nd
+no ip http server
+no ip http secure-server
+control-plane
+line con 0
+line vty 0
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ length 0
+ transport input ssh
+ transport output ssh
+line vty 1
+ exec-timeout 0 0
+ login local
+ length 0
+ transport input ssh
+ transport output ssh
+line vty 2 4
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ length 0
+ transport input ssh
+ transport output ssh
+netconf ssh
+end

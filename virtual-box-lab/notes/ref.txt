@@ -2,3 +2,4 @@ netmiko Supported Platforms: https://github.com/ktbyers/netmiko/blob/develop/EXA
 netmiko try examples - https://pynet.twb-tech.com/blog/automation/netmiko-what-is-done.html
 textfsm - https://www.packetflow.co.uk/a-hands-on-guide-to-netmiko-and-textfsm/
 netmiko getting started - https://ktbyers.github.io/netmiko/#tutorialsexamplesgetting-started
+regex tester - https://pythex.org/

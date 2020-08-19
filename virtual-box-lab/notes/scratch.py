@@ -172,3 +172,49 @@ def open_ssh_con(inventory):
                 inventory[device]['ssh_conn'] = net_connect 
     
     return inventory
+
+
+    r"\s+"
+
+                output_file_data = re.sub(r'^Building.*', '', output_file_data)
+                #remove the Building configuration ... line
+                output_file_data = output_file_data.replace('end', '')
+                #remove the end statement from the bottom of the config
+
+
+#output_file_data = output_file_data.replace('!\n', '\n')
+#remove any lines with only a !
+#output_file_data = output_file_data.replace('! \n', '\n')
+#remove any lines with a ! followed by a space
+
+#output_file_data = re.sub(r'[!*\n]{2,}', '\n', output_file_data)
+#output_file_data = re.sub(r' +', ' ', output_file_data)
+#replace multiple blank lines with a single
+
+output_file_data = re.sub(r'[!\n]{2,}', ' \n', output_file_data)
+#removes all lines starting with !
+
+
+
+output_file_data = output_file_data.replace('!\n', '')
+#removes all lines that consist of !\n
+output_file_data = output_file_data.replace('! \n', '')
+#remoevs all lines that consist of ! \n
+
+(!\n\n)+
+
+#fail
+output_file_data = re.sub(r'(!\n\n)+', '!\n', output_file_data)
+output_file_data = re.sub(r'(!\n\n)+', '!\n', output_file_data)
+
+#fail
+test2 =  re.sub(r'(!\n!\n)+', '\n', test)
+test3 = re.sub(r'(\s\s)+', '', test2)
+
+#fail
+test2 = test.replace('!\n', '')
+test3 = test2.replace('  !\n', '')
+
+test = test.strip()
+test2 =  re.sub(r'.*!.?\n', '', test)
+test3 =  re.sub(r'(\n)(\n+)', '\n', test2)
