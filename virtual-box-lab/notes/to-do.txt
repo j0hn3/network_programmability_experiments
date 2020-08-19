@@ -14,9 +14,9 @@ tunnel Builder
 - add IPSEC, routing to tunnels 
 
 Other Thoughts
-- backup/restore lab devices to base config 
+- restore lab devices to base config (may need to update backup parsing to remove first few lines )
+    + backup is complete
 - terraform to build virutal box devices
-- verify connectivity and local machine routes before attempting to connect via paramiko
 - pull down git repo and run specific scripts from repo against devices 
 - script against device APIs 
 - program to add JUNOS firewall policies 
