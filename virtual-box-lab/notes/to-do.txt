@@ -9,15 +9,19 @@ DC Nnetwork mangement
 tunnel Builder
 - generate configurations for each Allocation ( convert from fstring to jinja2 templates )
 - write unit testing for scripts  
-- automatic configuration for DC devices (paramiko and test device???), 
+- automatic configuration for devices (paramiko and test device???), 
   + include underlay and overlay verification
-- add IPSEC, routing to tunnels 
+- add IPSEC, routing to tunnels ??? 
+
+virutal-box-lab
+- restore lab devices to base config (may need to update backup parsing to remove first few lines )
+  + backup is complete
+- terraform to build virutal box devices
+
 
 Other Thoughts
-- restore lab devices to base config (may need to update backup parsing to remove first few lines )
-    + backup is complete
-- terraform to build virutal box devices
 - pull down git repo and run specific scripts from repo against devices 
-- script against device APIs 
 - program to add JUNOS firewall policies 
-- use ncclient to build netconf configurations
+- script against device APIs 
+  + use ncclient to build netconf configurations for cisco
+  + use eAPI client for Arista (https://eos.arista.com/working-with-the-python-eapi-client/)
