@@ -32,3 +32,10 @@ cisco1 = {
 
 with ConnectHandler(**device) as net_connect:
     output = net_connect.send_command(command)
+
+
+def device_run_show_cmd_textfsm_output(inventory, device, command):
+#run a show command against a device and return the output parsed using textfsm    
+    output = inventory['device']['ssh_con'].send_command(command, use_textfsm=True)
+    inventory['device'][command] = output
+    return inventory
