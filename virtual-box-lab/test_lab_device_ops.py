@@ -9,13 +9,15 @@ if __name__ == "__main__":
             "mgmt-ip": "192.168.255.131",
             "netmiko-type": "cisco_ios",
             "lab-user": "lab-admin",
-            "lab-pass": "En@ble123"
+            "lab-pass": "En@ble123",
+            "secrete": "En@ble123"
         },
         "csr1000v-rtr-02-down": {
             "mgmt-ip": "192.168.255.254",
             "netmiko-type": "cisco_ios",
             "lab-user": "lab-admin",
-            "lab-pass": "En@ble123"
+            "lab-pass": "En@ble123",
+            "secret": "En@ble123"
         }
     }
 
