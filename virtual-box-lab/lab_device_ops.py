@@ -12,8 +12,7 @@ def open_ssh_con(inventory):
             "host": inventory[device]['mgmt-ip'],
             "username": inventory[device]['lab-user'],
             "password": inventory[device]['lab-pass'],
-            #"secret": inventory[device]['enable-pass']
-            #generating key error "secret": inventory[device]['enable-pass']
+            "secret": inventory[device]['enable-pass']
         }
         try:
             net_connect = ConnectHandler(**device_info)
