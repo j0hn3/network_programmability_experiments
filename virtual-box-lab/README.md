@@ -10,6 +10,6 @@ All the software i use in this virutal lab is freely available and can be found 
 
 ### Notes
 - Arista EOS: 
-  - Network Adapters on EOS devices must be set to hardware type PCnet-FAST III or they will not pass data
-    - the management inteface can function as an intel NIC but eth interfaces must be PCnet-FAST III
-    - vEOS does not appear to support L3VPNs (% Not supported)
+  - Network Adapters on EOS devices must be set to hardware type PCnet-FAST III or they will not pass data. the management inteface can function as an intel NIC but eth interfaces must be PCnet-FAST III.
+    - ref: https://techandtrains.com/2014/11/14/installing-arista-veos-in-virtualbox-and-gns3/
+    - vEOS does not appear to support L3VPNs (EOS does), ipv4-vpn address family show commands return (% Not supported)
