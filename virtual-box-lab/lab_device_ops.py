@@ -35,7 +35,7 @@ def open_single_ssh_con(inventory, device):
     "host": inventory[device]['mgmt-ip'],
     "username": inventory[device]['lab-user'],
     "password": inventory[device]['lab-pass'],
-    "secret": inventory[device]['secret'],}
+    "secret": inventory[device]['enable-pass'],}
     
     try:
         net_connect = ConnectHandler(**device_info)
@@ -176,7 +176,7 @@ def save_new_gold_config(device):
     lab_inventory = open_single_ssh_con(lab_inventory, device)
     #attempt to establish ssh connections to all lab devices
     lab_inventory = single_dev_run_priv_cmd_raw_output(lab_inventory, device, "wr mem")
-    command = f"more flash:{device}.gold"
+    command = f"more flash:{device}-gold.txt"
     lab_inventory = single_dev_run_priv_cmd_raw_output(lab_inventory, device, command)
     #run more command to capture output of gold config on device
     output_file_path = f'./device_info/device_configs/{device}/'

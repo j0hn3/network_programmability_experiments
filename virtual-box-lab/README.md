@@ -7,3 +7,7 @@ All the software i use in this virutal lab is freely available and can be found 
 - CSR1000v: https://software.cisco.com/download/home/284364978/type/282046477/release/3.15.0S 
   - 3.15.0S is latest free version available as of 11/23/19
 - Cumulus Linux: https://cumulusnetworks.com/products/cumulus-vx/download/thanks/vmware-3710-/
+
+### Notes
+- Network Adapters on EOS devices must be set to hardware type PCnet-FAST III or they will not pass data
+  - the management inteface can function as an intel NIC but eth interfaces must be PCnet-FAST III
