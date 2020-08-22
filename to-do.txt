@@ -1,4 +1,4 @@
-DC Nnetwork mangement 
+DC Network mangement 
 - generate configurations for each Allocation ( convert from fstring to jinja2 templates )
 - format of req #s being taken as input
 - automatic configuration for DC devices (paramiko and test device???)
@@ -13,12 +13,19 @@ tunnel Builder
   + include underlay and overlay verification
 - add IPSEC, routing to tunnels ??? 
 
+l3vpn_buider
+- build config using jinja2
+- deploy configuration to devices
+- validate configuration once deployed
+
 virutal-box-lab
-- restore lab devices to base config (use gold config on device) 
-  + for cisco ios use configure replace command
-  + push gold config from files to device
-  + load gold config on lab devices (backup then load gold)
-- terraform to build virutal box devices
+- configure lab devices to specific baselines
+  + track available baselines
+  + script to load l3vpn gold config 
+  + script to load gold config on lab devices (backup then load gold)
+  + build new virutal box devices from baseline
+- script to start virutal machines
+
 
 
 Other Thoughts

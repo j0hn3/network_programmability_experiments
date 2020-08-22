@@ -1,0 +1,43 @@
+######
+#Config w/ brackets around vars
+#vrf definition {{VPN_10}}
+# rd {{1000:10}}
+# address-family ipv4
+#  route-target export {{1000:10}}
+#  route-target import {{1000:10}}
+# exit-address-family
+#
+#interface Loopback{{10}}
+# description {{VPN_10}} CUSTOMER
+# vrf forwarding {{VPN_10}}
+# ip address {{192.168.101.1}} {{255.255.255.0}}
+#
+#router bgp 1000
+# address-family ipv4 vrf {{VPN_10}}
+#  redistribute connected
+# exit-address-family
+######
+# config w/ var names 
+#vrf definition {{vpn_name}}
+# rd {{rd}}
+# address-family ipv4
+#  route-target export {{rt_export}}
+#  route-target import {{rt_import}}
+# exit-address-family
+#
+#interface Loopback{{customer_number}}
+# description {{vpn_name}} CUSTOMER
+# vrf forwarding {{vpn_name}}
+# ip address {{first_useable_customer_subnet}} {{customer_subnet_mask}}
+#
+#router bgp {{internal_asn}}
+# address-family ipv4 vrf {{vpn_name}}
+#  redistribute connected
+# exit-address-family
+######
+#thought is this script can pgenerate the template to provision any one 
+#site and will be looped or repeted as needed with the goal to break things down
+#into the smallest building blocks possible and then assemble the blocks as needed
+#as opposed to building larger more complex services
+######
+#script to generate vars for jinja2 tempplate 
