@@ -1,10 +1,14 @@
 import ipaddress
-import jinja2
+from jinja2 import Template
 import l3vpn_customer_vars as cx
+import l3vpn_file_ops as file_ops
 
 def generate_l3vpn_jinja2_vars():
-    customer_number = str(cx.customer_number)
+#take the information from the customer and parse it into the vars
+#needed to generate the vars needed to build the l3vpn config 
+    file_ops.read_file('l3vpn_customer_vars')
 
+    customer_number = str(cx.customer_number)
     internal_asn = str(cx.internal_asn)
 
     vpn_name = "VPN_"
@@ -25,6 +29,7 @@ def generate_l3vpn_jinja2_vars():
     first_useable_customer_ip = str(customer_ips[0])
     first_useable_customer_mask = str(customer_subnet.netmask)
 
+    #format the data into a dictionary to be used by jinja2 to render the config
     customer_vars = {
        'vpn_name': vpn_name,
        'rd': rd,
@@ -37,3 +42,18 @@ def generate_l3vpn_jinja2_vars():
     }
 
     return customer_vars 
+
+def render_device_configurations():
+    template = file_ops.read_file('l3vpn_customer_template.jinja2')
+    pe_j2_template = Template(template)
+    #open the template file and typecast it as a jinja2 template 
+
+    customer_vars = generate_l3vpn_jinja2_vars()
+    #generate the customer variables for the jinja2 template 
+
+    pe_config = pe_j2_template.render(customer_vars)
+    #render the pe configuration 
+    
+    return pe_config 
+
+
