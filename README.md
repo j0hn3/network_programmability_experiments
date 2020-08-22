@@ -42,7 +42,7 @@ This repo contains a variety of my personal experiments with network programabil
 ## Refs
 
 ### Links
-[netmiko Supported Platforms] (https://github.com/ktbyers/netmiko/blob/develop/EXAMPLES.md#available-device-types)
+[netmiko Supported Platforms](https://github.com/ktbyers/netmiko/blob/develop/EXAMPLES.md#available-device-types)
 [netmiko try examples] (https://pynet.twb-tech.com/blog/automation/netmiko-what-is-done.html)
 [textfsm and netmiko]  (https://www.packetflow.co.uk/a-hands-on-guide-to-netmiko-and-textfsm/)
 [netmiko getting started]  (https://ktbyers.github.io/netmiko/#tutorialsexamplesgetting-started)
