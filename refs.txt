@@ -1,0 +1,22 @@
+netmiko Supported Platforms: https://github.com/ktbyers/netmiko/blob/develop/EXAMPLES.md#available-device-types
+netmiko try examples - https://pynet.twb-tech.com/blog/automation/netmiko-what-is-done.html
+textfsm - https://www.packetflow.co.uk/a-hands-on-guide-to-netmiko-and-textfsm/
+netmiko getting started - https://ktbyers.github.io/netmiko/#tutorialsexamplesgetting-started
+regex tester - https://pythex.org/
+import vars from a file - https://stackoverflow.com/questions/17255737/importing-variables-from-another-file
+dict comprehnsion - https://www.programiz.com/python-programming/dictionary-comprehension
+netmiko - https://pynet.twb-tech.com/blog/automation/netmiko.html
+An introduction to the ipaddress module - https://docs.python.org/3.7/howto/ipaddress.html  
+ipaddress manipultation library - https://docs.python.org/3.7/library/ipaddress.html#ipaddress.ip_address
+using the ipaddress module in python - https://www.thepythoncode.com/article/manipulate-ip-addresses-using-ipaddress-module-in-python
+examplds of ipaddress module in python - https://www.programcreek.com/python/example/86160/ipaddress.IPv4Network
+json encoder and decoder - https://docs.python.org/3.7/library/json.html
+reading and writing output to a json file - https://www.geeksforgeeks.org/reading-and-writing-json-to-a-file-in-python/
+datetime examples - https://www.tutorialspoint.com/How-to-print-current-date-and-time-using-Python
+saving files to a sub directory - https://stackoverflow.com/questions/42255753/saving-files-to-a-subdirectory
+
+ipaddress python module
+- TypeError: Object of type IPv4Network is not JSON serializable -> ipaddress objects created using the ipaddress library cannot be written using json, instead save the ip address or network as a string and typecast it later
+
+csr1000v 
+- netconf: ssh -s lab-admin@192.168.255.131 netconf 
