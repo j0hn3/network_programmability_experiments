@@ -59,6 +59,7 @@ This repo contains a variety of my personal experiments with network programabil
 - [datetime examples](https://www.tutorialspoint.com/How-to-print-current-date-and-time-using-Python)
 - [saving files to a sub directory](https://stackoverflow.com/questions/42255753/saving-files-to-a-subdirectory)
 - [Markdown Cheatsheet](http://mdcheatsheet.com/)
+- [stack overflow on creating dirs via python](https://stackoverflow.com/questions/42255753/saving-files-to-a-subdirectory)
 
 ### Notes
 #### ipaddress python module

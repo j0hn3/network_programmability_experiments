@@ -1,15 +1,15 @@
 import ipaddress
+import yaml
 from jinja2 import Template
-import l3vpn_customer_vars as cx
 import l3vpn_file_ops as file_ops
 
 def generate_l3vpn_jinja2_vars():
 #take the information from the customer and parse it into the vars
 #needed to generate the vars needed to build the l3vpn config 
-    file_ops.read_file('l3vpn_customer_vars')
-
-    customer_number = str(cx.customer_number)
-    internal_asn = str(cx.internal_asn)
+    customer_info = file_ops.read_yaml_file('l3vpn_customer_vars.yaml')
+    print(customer_info)
+    customer_number = str(customer_info['customer_number'])
+    internal_asn = str(customer_info['internal_asn'])
 
     vpn_name = "VPN_"
     vpn_name  += customer_number
@@ -21,7 +21,7 @@ def generate_l3vpn_jinja2_vars():
     #standard import and export policy
 
 
-    customer_subnet = ipaddress.IPv4Network(cx.customer_subnet)
+    customer_subnet = ipaddress.IPv4Network(customer_info['customer_subnet'])
     #convert customer input into IP address object
     customer_ips = []
     for ip in customer_subnet.hosts():
@@ -44,7 +44,7 @@ def generate_l3vpn_jinja2_vars():
     return customer_vars 
 
 def render_device_configurations():
-    template = file_ops.read_file('l3vpn_customer_template.jinja2')
+    template = file_ops.read_yaml_file('l3vpn_customer_template.jinja2')
     pe_j2_template = Template(template)
     #open the template file and typecast it as a jinja2 template 
 
