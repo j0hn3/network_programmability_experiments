@@ -19,7 +19,7 @@ This repo contains a variety of my personal experiments with network programabil
 - add IPSEC, routing to tunnels ??? 
 
 ### l3vpn_buider
-- build config using jinja2
+- build config using jinja2 -> issue with new lines being kist that needs investigation 
 - deploy configuration to devices
 - validate configuration once deployed
 
@@ -60,6 +60,7 @@ This repo contains a variety of my personal experiments with network programabil
 - [saving files to a sub directory](https://stackoverflow.com/questions/42255753/saving-files-to-a-subdirectory)
 - [Markdown Cheatsheet](http://mdcheatsheet.com/)
 - [stack overflow on creating dirs via python](https://stackoverflow.com/questions/42255753/saving-files-to-a-subdirectory)
+- [network outaku python and jinja2 exampel](https://networkotaku.wordpress.com/2017/06/06/network-automation-template-configurations-with-jinja2-and-yaml/)
 
 ### Notes
 #### ipaddress python module

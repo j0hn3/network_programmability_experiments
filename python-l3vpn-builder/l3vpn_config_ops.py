@@ -7,7 +7,6 @@ def generate_l3vpn_jinja2_vars():
 #take the information from the customer and parse it into the vars
 #needed to generate the vars needed to build the l3vpn config 
     customer_info = file_ops.read_yaml_file('l3vpn_customer_vars.yaml')
-    print(customer_info)
     customer_number = str(customer_info['customer_number'])
     internal_asn = str(customer_info['internal_asn'])
 
@@ -54,6 +53,8 @@ def render_device_configurations():
     pe_config = pe_j2_template.render(customer_vars)
     #render the pe configuration 
     
+    print(pe_config)
+
     return pe_config 
 
 

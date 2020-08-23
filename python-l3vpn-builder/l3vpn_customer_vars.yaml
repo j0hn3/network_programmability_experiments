@@ -1,6 +1,6 @@
 customer_number: 1234
 customer_site: virtual_box_lab
-customer_subnet: 192.168.1.0/24
+customer_subnet: 192.168.0.0/24
 internal_asn: 1000
 site_devices:
 - csr1000v-rtr-01
