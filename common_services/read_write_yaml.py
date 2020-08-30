@@ -9,7 +9,6 @@ def read_yaml_file(input_file_name, input_file_path = './',):
     file.close()
     return opened_file
 
-
 def write_yaml_file(output_file_data, output_file_name, output_file_path = './'): 
 #take a dict and write it to disk as a yaml file
     create_folder(output_file_path)
