@@ -30,6 +30,7 @@ This repo contains a variety of my personal experiments with network programabil
   - script to load gold config on lab devices (backup then load gold)
   - build new virutal box devices from baseline
 - script to start virutal machines
+- CSR1000v Devices use config archive to backup configurations automatically to specific folders on laptop
 
 
 ### Other Thoughts
