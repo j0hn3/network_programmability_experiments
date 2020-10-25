@@ -1,0 +1,13 @@
+document topology in draw.io
+provision vms
+- eos
+document and depoloy base config
+- eos
+configure interfaces
+ - csr1000v
+ - vsrx (in progress)
+ - eos
+automation to save and restore configs 
+- csr1000v
+- vsrx
+- eos
