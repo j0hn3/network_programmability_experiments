@@ -1,0 +1,74 @@
+#### 1 manual entry at console to establish ssh to jump host ###
+
+enable
+config terminal
+!
+hostname csr1000v-rtr-[##]
+no ip domain lookup
+ip domain name lab.net
+!
+enable secret [###]
+username [###] privilege 15 password [###]
+!
+ip ssh version 2
+crypto key generate rsa modulus 1024
+!
+line vty 0 4
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ transport input ssh
+ transport output ssh
+!
+interface GigabitEthernet1
+ ip address 172.16.1.[###] 255.255.255.0
+ no shutdown
+ end
+!
+copy run start
+
+
+
+### 2 baseline os config - copy and paste at jump host###
+!
+enable
+config terminal
+!
+service password-encryption
+ip scp server enable
+no ip http server
+no ip http secure-server
+netconf ssh
+!
+interface GigabitEthernet1
+ description lab-mgmt
+!
+interface GigabitEthernet2
+ description lab-data
+ no ip address
+ no shutdown
+!
+event manager applet EEM_SSH_Keygen
+ action 0.0 info type routername
+ action 0.1 set status "none"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "show ip ssh | include ^SSH"
+ action 2.1 regexp "([ED][^ ]+)" "$_cli_result" result status
+ action 3.0 if $status eq "Disabled"
+ action 3.1  cli command "configure terminal"
+ action 3.2  cli command "crypto key generate rsa modulus 1024 label $_info_routername"
+ action 3.3  cli command "end"
+ action 3.4 end
+event manager applet CLIaccounting
+ event cli pattern ".*" sync no skip no
+ action 1.0 syslog priority informational msg "$_cli_msg"
+ action 2.0 set _exit_status "1"
+!
+kron occurrence KRONJOB in 1 recurring system-startup
+ policy-list KRONPOLICY
+end
+!
+wr mem
+copy running-config bootflash:/gold-base.bak
+y
+!
