@@ -11,3 +11,7 @@ automation to save and restore configs
 - csr1000v
 - vsrx
 - eos
+automation to test connectivity for all interfaces
+- csr1000v
+- vsrx
+- eos
