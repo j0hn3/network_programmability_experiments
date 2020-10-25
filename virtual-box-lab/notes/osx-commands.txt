@@ -1,7 +1,0 @@
-#commands to install packages in mac 
-pip3.7 install jinja2
-pip3.7 install netmiko
-
-
-pip3.7 install pythonping
-#requires root access to run sucessfully 

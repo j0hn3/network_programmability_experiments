@@ -1,7 +1,0 @@
-
-What does this program need to do?
-- generate a .json file to track a subnet designated for tunnels
-- break that subnet into /31 subnets
-- allocate a /31 subnet  listing who allocated it, the req, A-End rtr, and Z-End rtr 
-- generate configurations to build the tunnel (interace and routing?)
-- generate a command to test the tunnel once deployed (underlay and overlay)

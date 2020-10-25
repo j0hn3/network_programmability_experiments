@@ -1,4 +1,0 @@
-net add interface eth0 ip address 192.168.255.135/24
-net add interface swp1 ip address 10.100.0.135/24
-net add loopback lo ip address 172.16.255.135/32
-net add hostname cumulus-rtr-01
