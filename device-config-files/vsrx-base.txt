@@ -1,4 +1,25 @@
+#### 1 manual entry at console to establish ssh to jump host ###
+configure
+set system host-name vsrx-rtr-01
+set system root-authentication plain-text-password 
+set system login user lab-admin full-name lab-admin class super-user authentication plain-text-password 
+set interfaces fxp0 unit 0 family inet address 172.16.1.21/24
+commit and-quit
+
+### 2 baseline os config - copy and paste at jump host###
+
+configure
 delete security
 set security forwarding-options family inet6 mode packet-based
 set security forwarding-options family iso mode packet-based
 set security forwarding-options family mpls mode packet-based
+set interfaces ge-0/0/0 unit 0 family ethernet-switching interface-mode trunk
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members 999
+set interfaces ge-0/0/0 description lab-data
+set interfaces fxp0 description lab-mgmt
+commit and-quit
+request system reboot
+yes
+!
+
+
