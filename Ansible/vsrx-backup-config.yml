@@ -1,0 +1,53 @@
+---
+  - hosts: localhost
+    gather_facts: True
+    gather_subset:
+    - date_time
+#gatther facts from the local host and filter it to date_time to generate timestamps used later
+#https://stackoverflow.com/questions/33896847/how-do-i-set-register-a-variable-to-persist-between-plays-in-ansible
+
+  - name: Backup Configuration
+    hosts: vsrx-rtr-01
+    connection: local
+    gather_facts: False
+
+
+    vars:
+      timestamp: "{{ hostvars['localhost']['ansible_facts']['date_time']['iso8601_basic_short'] }}"
+      connection_details:
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        host: "{{ inventory_hostname }}"
+
+    tasks:
+      - name: BACKUP CONFIGS FOR ALL DEVICES
+        junos_command:
+          commands: show configuration
+          display: set
+        register: config_data
+
+      - debug: var=timestamp
+#https://www.mydailytutorials.com/ansible-create-directory/
+      - local_action:
+          module: file
+          path: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/"
+          state: directory
+
+#https://serverfault.com/questions/998979/ansible-register-variable-to-log-file
+      - local_action:
+          module: copy
+          content: "{{ config_data }}"
+          dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/{{ timestamp }}.txt"
+
+
+
+
+
+##https://docs.ansible.com/ansible/2.8/modules/junos_facts_module.html
+#      - name: collect default set of facts and configuration
+#        junos_facts:
+#          config_format: set
+#          gather_subset: config
+#        register: result
+#
+#      - debug: var=result.ansible_facts["ansible_net_config"]
