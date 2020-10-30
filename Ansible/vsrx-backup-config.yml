@@ -11,7 +11,6 @@
     connection: local
     gather_facts: False
 
-
     vars:
       timestamp: "{{ hostvars['localhost']['ansible_facts']['date_time']['iso8601_basic_short'] }}"
       connection_details:
@@ -23,10 +22,11 @@
       - name: BACKUP CONFIGS FOR ALL DEVICES
         junos_command:
           commands: show configuration
-          display: set
+          #display: set 
         register: config_data
 
-      - debug: var=timestamp
+      - debug: var='\n'.join(config_data.stdout)
+
 #https://www.mydailytutorials.com/ansible-create-directory/
       - local_action:
           module: file
@@ -36,18 +36,5 @@
 #https://serverfault.com/questions/998979/ansible-register-variable-to-log-file
       - local_action:
           module: copy
-          content: "{{ config_data }}"
+          content: "{{ '\n'.join(config_data.stdout) }}"
           dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/{{ timestamp }}.txt"
-
-
-
-
-
-##https://docs.ansible.com/ansible/2.8/modules/junos_facts_module.html
-#      - name: collect default set of facts and configuration
-#        junos_facts:
-#          config_format: set
-#          gather_subset: config
-#        register: result
-#
-#      - debug: var=result.ansible_facts["ansible_net_config"]
