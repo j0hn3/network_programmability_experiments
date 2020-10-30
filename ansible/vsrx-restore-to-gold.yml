@@ -6,7 +6,7 @@
 #gatther facts from the local host and filter it to date_time to generate timestamps used later
 #https://stackoverflow.com/questions/33896847/how-do-i-set-register-a-variable-to-persist-between-plays-in-ansible
 
-  - name: Backup Configuration - vsrx
+  - name: Restore to Gold - vsrx
     hosts: vsrx
     connection: local
     gather_facts: False
@@ -42,3 +42,8 @@
           #https://www.juniper.net/documentation/en_US/junos-ansible/topics/topic-map/junos-ansible-configuration-loading-committing.html
           #dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/{{ timestamp }}.conf"
           #use if display:set is commented out
+
+      - junos_config:
+          src: "/home/lab-admin/lab-configs/{{inventory_hostname}}/gold-config/gold.set"
+          src_format: set
+          

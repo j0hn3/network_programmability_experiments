@@ -26,8 +26,8 @@ eosv-rtr-06
 eosv-rtr-07 
 
 [all:vars]
-ansible_user= ###
-ansible_ssh_pass= ###
+ansible_user=[###]
+ansible_ssh_pass=[###]
 
 [csr1000v:vars]
 ansible_network_os=ios
