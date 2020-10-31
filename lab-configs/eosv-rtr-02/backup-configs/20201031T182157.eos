@@ -1,0 +1,64 @@
+! Command: show running-config
+! device: eosv-rtr-02 (vEOS, EOS-4.25.0F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model ribd
+!
+no logging console
+!
+hostname eosv-rtr-02
+!
+spanning-tree mode mstp
+!
+no aaa root
+!
+username admin role network-admin secret sha512 $6$3jW9oyahLrbRJrwI$e8NrVWBjRZ.ZXwcLcn22KzIJHjUWdKKqaiEpQF9nPHDuY9yqbsuQMpefmQYkhNs1nt.qqf8YMML0a8D4AezPi.
+username lab-admin privilege 15 secret sha512 $6$02qUjwQK.kALlC/Y$k8UnFqaGQ7MSbypwsnkheDZQEIQDicIOu.h3v0K956m6fPKqy3/7qa9KyMV/wKmjC/9H1I65a/nWVVfDQmGbl1
+!
+interface Ethernet1
+   description lab-data
+   no switchport
+!
+interface Ethernet1.12
+   description to-eosv-rtr-01
+   encapsulation dot1q vlan 12
+   ip address 10.100.12.2/24
+!
+interface Ethernet1.17
+   description to-eosv-rtr-03&5&7
+   encapsulation dot1q vlan 17
+   ip address 10.100.17.2/24
+!
+interface Ethernet1.21
+   description to-eosv-rtr-01
+   encapsulation dot1q vlan 21
+   ip address 10.100.21.2/24
+!
+interface Ethernet1.23
+   description to-eosv-rtr-03
+   encapsulation dot1q vlan 23
+   ip address 10.100.23.2/24
+!
+interface Ethernet1.32
+   description to-eosv-rtr-03
+   encapsulation dot1q vlan 32
+   ip address 10.100.32.2/24
+!
+interface Ethernet1.71
+   description to-eosv-rtr-03&5&7
+   encapsulation dot1q vlan 71
+   ip address 10.100.71.2/24
+!
+interface Loopback0
+   ip address 10.255.255.32/32
+!
+interface Management1
+   description lab-mgmt
+   ip address 172.16.1.32/24
+!
+ip routing
+!
+end

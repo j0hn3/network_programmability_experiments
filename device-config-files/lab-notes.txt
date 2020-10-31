@@ -1,0 +1,15 @@
+File Extensions 
+    - csr1000v: .ios
+    - vsrx: .set (chose to use set vs .conf, .xml, .json)
+    - eosv: .eos
+ 
+Reset to Gold Strategy
+    - JUNOS: junos_config push from file push file from jumphost
+    - IOS: save to bootflash use config replace to load into running config 
+    - EOS: eos_config push file from jumphost (can also restore from gold on flash)
+
+Ref
+    - JUNOS Ansible Configuraiton management: https://www.juniper.net/documentation/en_US/junos-ansible/topics/topic-map/junos-ansible-configuration-loading-committing.html
+    - Ansible Network Examples: https://docs.ansible.com/ansible/latest/network/user_guide/network_best_practices_2.5.html
+
+          

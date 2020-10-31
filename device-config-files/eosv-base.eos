@@ -34,4 +34,5 @@ management ssh
    idle-timeout 86400
 !
 end
+copy running-config flash:gold.eos
 wr

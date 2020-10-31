@@ -1,0 +1,61 @@
+! Command: show running-config
+! device: veos-rtr-01 (vEOS, EOS-4.25.0F)
+!
+! boot system flash:/vEOS-lab.swi
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model ribd
+!
+no logging console
+!
+hostname veos-rtr-01
+!
+spanning-tree mode mstp
+!
+no aaa root
+!
+username lab-admin privilege 15 secret sha512 $6$Wo6xB52THC/Z956J$Pa6TRpP1c64Ookjrmz/OY5H4Lj2pyej6a/ePOSCEGDUPiU19fzWAcsoln1pjIYbiqxVpr68GjD4kBTedU1teS0
+!
+interface Ethernet1
+   description lab-data
+   no switchport
+!
+interface Ethernet1.11
+   description to-eosv-rtr-04&6
+   encapsulation dot1q vlan 11
+   ip address 10.100.11.1/24
+!
+interface Ethernet1.12
+   description to-eosv-rtr-02
+   encapsulation dot1q vlan 12
+   ip address 10.100.12.1/24
+!
+interface Ethernet1.13
+   description to-eosv-rtr-03
+   encapsulation dot1q vlan 13
+   ip address 10.100.13.1/24
+!
+interface Ethernet1.21
+   description to-eosv-rtr-02
+   encapsulation dot1q vlan 21
+   ip address 10.100.21.1/24
+!
+interface Ethernet1.31
+   description to-eosv-rtr-03
+   encapsulation dot1q vlan 31
+   ip address 10.100.31.1/24
+!
+interface Loopback0
+   ip address 10.255.255.31/32
+!
+interface Management1
+   description lab-mgmt
+   ip address 172.16.1.31/24
+!
+ip routing
+!
+management ssh
+   idle-timeout 86400
+!
+end
