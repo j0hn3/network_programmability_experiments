@@ -1,12 +1,3 @@
-document topology in draw.io
-provision vms
-- eos
-document and depoloy base config
-- eos
-configure interfaces
-- eos
-automation to save and restore gold config 
-- eos
 automation to test connectivity for all interfaces
 - csr1000v
 - vsrx
