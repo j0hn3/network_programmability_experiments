@@ -4,12 +4,8 @@ provision vms
 document and depoloy base config
 - eos
 configure interfaces
- - csr1000v
- - vsrx (in progress)
- - eos
-automation to save and restore configs 
-- csr1000v
-- vsrx
+- eos
+automation to save and restore gold config 
 - eos
 automation to test connectivity for all interfaces
 - csr1000v

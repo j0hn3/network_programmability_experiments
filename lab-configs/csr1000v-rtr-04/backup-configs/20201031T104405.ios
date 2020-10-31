@@ -1,0 +1,114 @@
+
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+no platform punt-keepalive disable-kernel-core
+platform console auto
+hostname csr1000v-rtr-04
+boot-start-marker
+boot-end-marker
+enable secret 5 $1$WH2j$3WbAOf8YxqBYuXTqa3fdI0
+no aaa new-model
+
+
+no ip domain lookup
+ip domain name lab.net
+
+subscriber templating
+multilink bundle-name authenticated
+license udi pid CSR1000V sn 9XF0BG4UZNE
+license boot level ax
+spanning-tree extend system-id
+username lab-admin privilege 15 password 7 15222B1F173D24362C62677152
+redundancy
+ip ssh version 2
+ip scp server enable
+interface Loopback0
+ ip address 10.255.255.14 255.255.255.0
+interface GigabitEthernet1
+ description lab-mgmt
+ ip address 172.16.1.14 255.255.255.0
+ negotiation auto
+interface GigabitEthernet2
+ description lab-data
+ no ip address
+ negotiation auto
+interface GigabitEthernet2.11
+ description link-to-rtr1&6
+ encapsulation dot1Q 11
+ ip address 10.100.11.4 255.255.255.0
+interface GigabitEthernet2.34
+ description link-to-rtr3
+ encapsulation dot1Q 34
+ ip address 10.100.34.4 255.255.255.0
+interface GigabitEthernet2.43
+ description link-to-rtr3
+ encapsulation dot1Q 43
+ ip address 10.100.43.4 255.255.255.0
+interface GigabitEthernet2.45
+ description link-to-rtr5
+ encapsulation dot1Q 45
+ ip address 10.100.45.4 255.255.255.0
+interface GigabitEthernet2.54
+ description link-to-rtr5
+ encapsulation dot1Q 54
+ ip address 10.100.54.4 255.255.255.0
+interface GigabitEthernet2.134
+ description link-to-rtr3
+ encapsulation dot1Q 134
+ ip address 10.100.134.4 255.255.255.0
+interface GigabitEthernet2.143
+ description link-to-rtr3
+ encapsulation dot1Q 143
+ ip address 10.100.143.4 255.255.255.0
+interface GigabitEthernet2.145
+ description link-to-rtr5
+ encapsulation dot1Q 145
+ ip address 10.100.145.4 255.255.255.0
+interface GigabitEthernet2.154
+ description link-to-rtr5
+ encapsulation dot1Q 154
+ ip address 10.100.154.4 255.255.255.0
+virtual-service csr_mgmt
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+kron occurrence KRONJOB in 1 recurring system-startup
+ policy-list KRONPOLICY
+control-plane
+line con 0
+line vty 0
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ transport input ssh
+ transport output ssh
+line vty 1
+ exec-timeout 0 0
+ login local
+ length 0
+ transport input ssh
+ transport output ssh
+line vty 2 4
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ transport input ssh
+ transport output ssh
+netconf ssh
+event manager applet EEM_SSH_Keygen
+ action 0.0 info type routername
+ action 0.1 set status "none"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "show ip ssh | include ^SSH"
+ action 2.1 regexp "([ED][^ ]+)" "$_cli_result" result status
+ action 3.0 if $status eq "Disabled"
+ action 3.1  cli command "configure terminal"
+ action 3.2  cli command "crypto key generate rsa modulus 1024 label $_info_routername"
+ action 3.3  cli command "end"
+ action 3.4 end
+event manager applet CLIaccounting
+ event cli pattern ".*" sync no skip no
+ action 1.0 syslog priority informational msg "$_cli_msg"
+ action 2.0 set _exit_status "1"
+end

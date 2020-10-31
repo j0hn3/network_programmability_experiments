@@ -1,0 +1,102 @@
+
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+no platform punt-keepalive disable-kernel-core
+platform console auto
+hostname csr1000v-rtr-02
+boot-start-marker
+boot-end-marker
+enable secret 5 $1$mGya$cE0ZRgHJRAtyS8Bt2ewdq.
+no aaa new-model
+
+
+no ip domain lookup
+ip domain name lab.net
+
+subscriber templating
+multilink bundle-name authenticated
+license udi pid CSR1000V sn 9Q192WNQFC2
+license boot level ax
+spanning-tree extend system-id
+username lab-admin privilege 15 password 7 097C6E1A0A1218000F5D56796A
+redundancy
+ip ssh version 2
+ip scp server enable
+interface Loopback0
+ ip address 10.255.255.12 255.255.255.0
+interface GigabitEthernet1
+ description lab-mgmt
+ ip address 172.16.1.12 255.255.255.0
+ negotiation auto
+interface GigabitEthernet2
+ description lab-data
+ no ip address
+ negotiation auto
+interface GigabitEthernet2.12
+ description link-to-rtr1
+ encapsulation dot1Q 12
+ ip address 10.100.12.2 255.255.255.0
+interface GigabitEthernet2.17
+ description link-to-rtr3&5&7
+ encapsulation dot1Q 17
+ ip address 10.100.17.2 255.255.255.0
+interface GigabitEthernet2.21
+ description ink-to-rtr1
+ encapsulation dot1Q 21
+ ip address 10.100.21.2 255.255.255.0
+interface GigabitEthernet2.23
+ description link-to-rtr3
+ encapsulation dot1Q 23
+ ip address 10.100.23.2 255.255.255.0
+interface GigabitEthernet2.32
+ description link-to-rtr3
+ encapsulation dot1Q 32
+ ip address 10.100.32.2 255.255.255.0
+interface GigabitEthernet2.71
+ description link-to-rtr3&5&7
+ encapsulation dot1Q 71
+ ip address 10.100.71.2 255.255.255.0
+virtual-service csr_mgmt
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+kron occurrence KRONJOB in 1 recurring system-startup
+ policy-list KRONPOLICY
+control-plane
+line con 0
+line vty 0
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ transport input ssh
+ transport output ssh
+line vty 1
+ exec-timeout 0 0
+ login local
+ length 0
+ transport input ssh
+ transport output ssh
+line vty 2 4
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ transport input ssh
+ transport output ssh
+netconf ssh
+event manager applet EEM_SSH_Keygen
+ action 0.0 info type routername
+ action 0.1 set status "none"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "show ip ssh | include ^SSH"
+ action 2.1 regexp "([ED][^ ]+)" "$_cli_result" result status
+ action 3.0 if $status eq "Disabled"
+ action 3.1  cli command "configure terminal"
+ action 3.2  cli command "crypto key generate rsa modulus 1024 label $_info_routername"
+ action 3.3  cli command "end"
+ action 3.4 end
+event manager applet CLIaccounting
+ event cli pattern ".*" sync no skip no
+ action 1.0 syslog priority informational msg "$_cli_msg"
+ action 2.0 set _exit_status "1"
+end
