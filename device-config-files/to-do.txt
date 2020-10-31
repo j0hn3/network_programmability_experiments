@@ -1,4 +1,0 @@
-automation to test connectivity for all interfaces
-- csr1000v
-- vsrx
-- eos
