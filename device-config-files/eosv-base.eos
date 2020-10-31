@@ -1,0 +1,37 @@
+#### 1 manual entry at console to establish ssh to jump host ###
+!VM specs, 4g drive, 2g ram, fedora 64-bit
+!when VM is created delete hard disk and create new SCSI disk 
+!copy and rename downloaded VMDK in VM folder
+!create new scsi HD, choose existing and point, to vmdk file 
+
+zerotouch disable
+!device reboots
+ena
+config t
+interface Management1
+    ip address 172.16.1.3#/24
+    no shut
+username lab-admin privilege 15 secret 0 [###]
+end
+wr
+
+### 2 baseline os config - copy and paste at jump host ###
+ena
+config t
+hostname eosv-rtr-07
+no logging console
+ip routing 
+!
+interface Management1
+   description lab-mgmt
+!
+interface Ethernet1
+   description lab-data
+   no switchport
+   no shutdown 
+!
+management ssh
+   idle-timeout 86400
+!
+end
+wr
