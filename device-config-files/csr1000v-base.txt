@@ -69,6 +69,6 @@ kron occurrence KRONJOB in 1 recurring system-startup
 end
 !
 wr mem
-copy running-config bootflash:/gold-base.bak
-y
+copy running-config bootflash:gold.ios
+gold.ios
 !
