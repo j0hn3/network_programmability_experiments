@@ -29,7 +29,7 @@ copy run start
 
 
 
-### 2 baseline os config - copy and paste at jump host###
+### 2 baseline os config - copy and paste at jump host ###
 !
 enable
 config terminal
