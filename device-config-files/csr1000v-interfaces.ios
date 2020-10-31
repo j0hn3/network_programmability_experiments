@@ -2,7 +2,7 @@ csr1000v-rtr-01
  ena
  config t
  interface lo0
-  ip address 10.255.255.11 255.255.255.0
+  ip address 10.255.255.11 255.255.255.255
  interface g2.12
   description link-to-rtr2
   encapsulation dot1Q 12
@@ -30,7 +30,7 @@ csr1000v-rtr-02
  ena
  config t
  interface lo0
-  ip address 10.255.255.12 255.255.255.0
+  ip address 10.255.255.12 255.255.255.255
  interface g2.12
   description link-to-rtr1
   encapsulation dot1Q 12
@@ -62,7 +62,7 @@ csr1000v-rtr-03
  ena
  config t
  interface lo0
-  ip address 10.255.255.13 255.255.255.0
+  ip address 10.255.255.13 255.255.255.255
  !
  interface g2.13
   description link-to-rtr1
@@ -132,7 +132,7 @@ csr1000v-rtr-04
  ena
  config t
  interface lo0
-  ip address 10.255.255.14 255.255.255.0
+  ip address 10.255.255.14 255.255.255.255
  !
  interface g2.34
   description link-to-rtr3
@@ -179,7 +179,7 @@ csr1000v-rtr-05
  ena
  config t
  interface lo0
-  ip address 10.255.255.15 255.255.255.0
+  ip address 10.255.255.15 255.255.255.255
  !
  interface g2.45
   description link-to-rtr4
@@ -239,7 +239,7 @@ csr1000v-rtr-06
  ena
  config t
  interface lo0
-  ip address 10.255.255.16 255.255.255.0
+  ip address 10.255.255.16 255.255.255.255
  interface g2.18
   description link-to-rtr5&7
   encapsulation dot1Q 18
@@ -255,7 +255,7 @@ csr1000v-rtr-07
  ena
  config t
  interface lo0
-  ip address 10.255.255.17 255.255.255.0
+  ip address 10.255.255.17 255.255.255.255
  interface g2.18
   description link-to-rtr5&7
   encapsulation dot1Q 18
