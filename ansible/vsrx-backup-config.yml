@@ -1,0 +1,44 @@
+---
+  - hosts: localhost
+    gather_facts: True
+    gather_subset:
+    - date_time
+#gatther facts from the local host and filter it to date_time to generate timestamps used later
+#https://stackoverflow.com/questions/33896847/how-do-i-set-register-a-variable-to-persist-between-plays-in-ansible
+
+  - name: Backup Configuration - vsrx
+    hosts: vsrx
+    connection: local
+    gather_facts: False
+
+    vars:
+      timestamp: "{{ hostvars['localhost']['ansible_facts']['date_time']['iso8601_basic_short'] }}"
+      connection_details:
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        host: "{{ inventory_hostname }}"
+
+    tasks:
+      - junos_command:
+          commands: show configuration
+          display: set 
+        register: config_data
+
+      #- debug: var='\n'.join(config_data.stdout)
+      #use to test output of what is being saved
+
+#https://www.mydailytutorials.com/ansible-create-directory/
+      - local_action:
+          module: file
+          path: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/"
+          state: directory
+
+#https://serverfault.com/questions/998979/ansible-register-variable-to-log-file
+      - local_action:
+          module: copy
+          content: "{{ '\n'.join(config_data.stdout) }}"
+          dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/{{ timestamp }}.set"
+
+          #https://www.juniper.net/documentation/en_US/junos-ansible/topics/topic-map/junos-ansible-configuration-loading-committing.html
+          #dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/{{ timestamp }}.conf"
+          #use if display:set is commented out
