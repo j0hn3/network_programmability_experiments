@@ -1,0 +1,50 @@
+set version 20.3R1.8
+set system host-name vsrx-rtr-07
+set system root-authentication encrypted-password "$6$ARnGW8h0$rtDmG4Ette4FSGmqg/3KO.pfcBiZ6iMxw3JmLCyK5ely6Jo5PRaeTwY4PrVoS31bv3oj2xP8vXE/sn0gUjiE0/"
+set system login user lab-admin full-name lab-admin
+set system login user lab-admin uid 2000
+set system login user lab-admin class super-user
+set system login user lab-admin authentication encrypted-password "$6$KRAE4gti$jF7AuOUK0qu3ahO6mFFZmMJRgAcIOlzx7udnVICexJHp.fXSzeQHsuWzYhyxhvpTb.t9N8HfE6qf8lvHoE5Ch."
+set system services ssh
+set system services netconf ssh
+set system services web-management http interface fxp0.0
+set system syslog user * any emergency
+set system syslog file messages any any
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system license autoupdate url https://ae1.juniper.net/junos/key_retrieval
+set security forwarding-options family inet6 mode packet-based
+set security forwarding-options family mpls mode packet-based
+set security forwarding-options family iso mode packet-based
+set interfaces ge-0/0/0 description lab-data
+set interfaces ge-0/0/0 unit 0 family ethernet-switching interface-mode trunk
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members 999
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link18
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link67
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link57
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link17
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link71
+set interfaces fxp0 description lab-mgmt
+set interfaces fxp0 unit 0 family inet address 172.16.1.27/24
+set interfaces irb unit 17 description link-to-rtr2+3+5
+set interfaces irb unit 17 family inet address 10.100.17.7/24
+set interfaces irb unit 18 description link-to-rtr5+6
+set interfaces irb unit 18 family inet address 10.100.18.7/24
+set interfaces irb unit 57 description link-to-rtr5
+set interfaces irb unit 57 family inet address 10.100.57.7/24
+set interfaces irb unit 67 description link-to-rtr6
+set interfaces irb unit 67 family inet address 10.100.67.7/24
+set interfaces irb unit 71 description link-to-rtr2+3+5
+set interfaces irb unit 71 family inet address 10.100.71.7/24
+set interfaces lo0 unit 0 family inet address 10.255.255.27/32
+set protocols lldp-med interface all location elin rtr-07
+set vlans link17 vlan-id 17
+set vlans link17 l3-interface irb.17
+set vlans link18 vlan-id 18
+set vlans link18 l3-interface irb.18
+set vlans link57 vlan-id 57
+set vlans link57 l3-interface irb.57
+set vlans link67 vlan-id 67
+set vlans link67 l3-interface irb.67
+set vlans link71 vlan-id 71
+set vlans link71 l3-interface irb.71

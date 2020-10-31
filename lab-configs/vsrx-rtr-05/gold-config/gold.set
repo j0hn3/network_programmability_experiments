@@ -1,0 +1,80 @@
+set version 20.3R1.8
+set system host-name vsrx-rtr-05
+set system root-authentication encrypted-password "$6$XfXcQfWQ$.F2JYu2Tbg9FWiptkrOk4EASTLpCZL1EJ.ToxlteUA0LpPsyeFrvyO4a95fcGhG5bIrozT8vRq.vDbuJ7/vpM."
+set system login user lab-admin full-name lab-admin
+set system login user lab-admin uid 2000
+set system login user lab-admin class super-user
+set system login user lab-admin authentication encrypted-password "$6$KRKJ/fUo$ioW9XumljsNwnIBNskxXaTZdDh3kRlRaKZm9CPnzzgugqoReBi7.rNQzuk0OuKNewaNsDk3c.kPCFT9Riw2s.0"
+set system services ssh
+set system services netconf ssh
+set system services web-management http interface fxp0.0
+set system syslog user * any emergency
+set system syslog file messages any any
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands any
+set system license autoupdate url https://ae1.juniper.net/junos/key_retrieval
+set security forwarding-options family inet6 mode packet-based
+set security forwarding-options family mpls mode packet-based
+set security forwarding-options family iso mode packet-based
+set interfaces ge-0/0/0 description lab-data
+set interfaces ge-0/0/0 unit 0 family ethernet-switching interface-mode trunk
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members 999
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link35
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link53
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link135
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link153
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link45
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link54
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link145
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link154
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link17
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link71
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link57
+set interfaces fxp0 description lab-mgmt
+set interfaces fxp0 unit 0 family inet address 172.16.1.25/24
+set interfaces irb unit 17 description link-to-rtr1+6
+set interfaces irb unit 17 family inet address 10.100.17.5/24
+set interfaces irb unit 35 description link-to-rtr3
+set interfaces irb unit 35 family inet address 10.100.35.5/24
+set interfaces irb unit 45 description link-to-rtr4
+set interfaces irb unit 45 family inet address 10.100.45.5/24
+set interfaces irb unit 53 description link-to-rtr3
+set interfaces irb unit 53 family inet address 10.100.53.5/24
+set interfaces irb unit 54 description link-to-rtr4
+set interfaces irb unit 54 family inet address 10.100.54.5/24
+set interfaces irb unit 57 description link-to-rtr7
+set interfaces irb unit 57 family inet address 10.100.57.5/24
+set interfaces irb unit 71 description link-to-rtr1
+set interfaces irb unit 71 family inet address 10.100.71.5/24
+set interfaces irb unit 135 description link-to-rtr3
+set interfaces irb unit 135 family inet address 10.100.135.5/24
+set interfaces irb unit 145 description link-to-rtr4
+set interfaces irb unit 145 family inet address 10.100.145.5/24
+set interfaces irb unit 153 description link-to-rtr3
+set interfaces irb unit 153 family inet address 10.100.153.5/24
+set interfaces irb unit 154 description link-to-rtr4
+set interfaces irb unit 154 family inet address 10.100.154.5/24
+set interfaces lo0 unit 0 family inet address 10.255.255.25/32
+set protocols lldp-med interface all location elin rtr-05
+set vlans link135 vlan-id 135
+set vlans link135 l3-interface irb.135
+set vlans link145 vlan-id 145
+set vlans link145 l3-interface irb.145
+set vlans link153 vlan-id 153
+set vlans link153 l3-interface irb.153
+set vlans link154 vlan-id 154
+set vlans link154 l3-interface irb.154
+set vlans link17 vlan-id 17
+set vlans link17 l3-interface irb.17
+set vlans link35 vlan-id 35
+set vlans link35 l3-interface irb.35
+set vlans link45 vlan-id 45
+set vlans link45 l3-interface irb.45
+set vlans link53 vlan-id 53
+set vlans link53 l3-interface irb.53
+set vlans link54 vlan-id 54
+set vlans link54 l3-interface irb.54
+set vlans link57 vlan-id 57
+set vlans link57 l3-interface irb.57
+set vlans link71 vlan-id 71
+set vlans link71 l3-interface irb.71
