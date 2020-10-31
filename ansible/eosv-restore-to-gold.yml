@@ -1,0 +1,50 @@
+---
+  - hosts: localhost
+    gather_facts: True
+    gather_subset:
+    - date_time
+#gatther facts from the local host and filter it to date_time to generate timestamps used later
+#https://stackoverflow.com/questions/33896847/how-do-i-set-register-a-variable-to-persist-between-plays-in-ansible
+
+  - name: Backup Configuration - eosv
+    hosts: eosv
+    connection: local
+    gather_facts: False
+
+    vars:
+      timestamp: "{{ hostvars['localhost']['ansible_facts']['date_time']['iso8601_basic_short'] }}"
+      connection_details:
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        host: "{{ inventory_hostname }}"
+
+    tasks:
+      - name: Capture Running Configuration
+        arista.eos.eos_command:
+          commands: show running-config 
+        register: config_data
+
+#https://www.mydailytutorials.com/ansible-create-directory/
+      - local_action:
+          module: file
+          path: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/"
+          state: directory
+
+#https://serverfault.com/questions/998979/ansible-register-variable-to-log-file
+      - local_action:
+          module: copy
+          content: "{{ '\n'.join(config_data.stdout) }}"
+          dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/backup-configs/{{ timestamp }}.eos"
+
+      - name: Replace config on device with gold.eos from jumphost
+        arista.eos.eos_config:
+          src: "/home/lab-admin/lab-configs/{{inventory_hostname}}/gold-config/gold.eos"
+          replace: config
+          save_when: always
+
+#can push gold.eos from jumphost - removed this section
+#      - name: Replace gold.ios on bootflash
+#        arista.eos.eos_command:
+#          commands: 
+#            - 'configure replace gold.eos'
+#            - 'wr'

@@ -1,0 +1,42 @@
+---
+  - name: Create New Gold - eosv
+    hosts: eosv
+    connection: local
+    gather_facts: False
+
+    vars:
+      timestamp: "{{ hostvars['localhost']['ansible_facts']['date_time']['iso8601_basic_short'] }}"
+      connection_details:
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        host: "{{ inventory_hostname }}"
+
+    tasks:
+      - name: Save gold.ios to jumphost 
+        arista.eos.eos_command:
+          commands: show running-config 
+        register: config_data
+
+      #- debug: var='\n'.join(config_data.stdout)
+      #use to test output of what is being saved
+
+#https://www.mydailytutorials.com/ansible-create-directory/
+      - local_action:
+          module: file
+          path: "/home/lab-admin/lab-configs/{{inventory_hostname}}/gold-config/"
+          state: directory
+
+#https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
+      - local_action:
+          module: copy
+          content: "{{ '\n'.join(config_data.stdout) }}"
+          dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/gold-config/gold.eos"
+          backup: yes
+
+#can push gold.eos from jumphost - removed this section
+#      - name: replace config with gold.ios from bootflash
+#        arista.eos.eos_command:
+#          commands: 
+#            - 'delete flash:gold.eos'
+#            - 'copy running-config flash:gold.eos'
+
