@@ -1,4 +1,5 @@
 [csr1000v]
+csr1000v-rtr-00
 csr1000v-rtr-01
 csr1000v-rtr-02
 csr1000v-rtr-03
@@ -6,8 +7,10 @@ csr1000v-rtr-04
 csr1000v-rtr-05
 csr1000v-rtr-06
 csr1000v-rtr-07
+csr1000v-rtr-08
 
 [vsrx]
+vsrx-rtr-00
 vsrx-rtr-01
 vsrx-rtr-02
 vsrx-rtr-03
@@ -15,15 +18,18 @@ vsrx-rtr-04
 vsrx-rtr-05
 vsrx-rtr-06
 vsrx-rtr-07
+vsrx-rtr-08
 
 [eosv]
+eosv-rtr-00 
 eosv-rtr-01 
 eosv-rtr-02 
 eosv-rtr-03 
 eosv-rtr-04 
 eosv-rtr-05 
 eosv-rtr-06 
-eosv-rtr-07 
+eosv-rtr-07
+eosv-rtr-08 
 
 [all:vars]
 ansible_user=###
