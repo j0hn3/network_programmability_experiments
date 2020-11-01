@@ -9,7 +9,7 @@ csr1000v-rtr-00
   ip address 10.100.1.10 255.255.255.0
  interface g2.10
   description ink-to-rtr1
-  encapsulation dot1Q 21
+  encapsulation dot1Q 10
   ip address 10.100.10.10 255.255.255.0
  interface g2.02
   description link-to-rtr2
