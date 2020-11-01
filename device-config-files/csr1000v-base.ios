@@ -10,15 +10,12 @@ ip domain name lab.net
 enable secret [###]
 username [###] privilege 15 password [###]
 !
-ip ssh version 2
 crypto key generate rsa modulus 1024
 !
 line vty 0 4
  exec-timeout 0 0
  privilege level 15
  login local
- transport input ssh
- transport output ssh
 !
 interface GigabitEthernet1
  ip address 172.16.1.[###] 255.255.255.0
@@ -34,6 +31,7 @@ copy run start
 enable
 config terminal
 !
+ip ssh version 2
 service password-encryption
 ip scp server enable
 no ip http server
@@ -47,6 +45,13 @@ interface GigabitEthernet2
  description lab-data
  no ip address
  no shutdown
+!
+line vty 0 4
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ transport input ssh
+ transport output ssh
 !
 event manager applet EEM_SSH_Keygen
  action 0.0 info type routername
