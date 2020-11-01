@@ -1,3 +1,32 @@
+csr1000v-rtr-00
+ ena
+ config t
+ interface lo0
+  ip address 10.255.255.10 255.255.255.255
+ interface g2.01
+  description link-to-rtr1
+  encapsulation dot1Q 01
+  ip address 10.100.1.10 255.255.255.0
+ interface g2.10
+  description ink-to-rtr1
+  encapsulation dot1Q 21
+  ip address 10.100.10.10 255.255.255.0
+ interface g2.02
+  description link-to-rtr2
+  encapsulation dot1Q 2
+  ip address 10.100.2.10 255.255.255.0
+ interface g2.20
+  description link-to-rtr2
+  encapsulation dot1Q 20
+  ip address 10.100.20.10 255.255.255.0
+ interface g2.11
+  description link-to-rtr1&4&6
+  encapsulation dot1Q 11  
+  ip address 10.100.11.10 255.255.255.0
+ end
+ wr
+
+
 csr1000v-rtr-01
  ena
  config t
@@ -23,6 +52,14 @@ csr1000v-rtr-01
   description link-to-rtr3
   encapsulation dot1Q 31  
   ip address 10.100.31.1 255.255.255.0
+ interface g2.01
+  description link-to-rtr0
+  encapsulation dot1Q 01
+  ip address 10.100.1.1 255.255.255.0
+ interface g2.10
+  description ink-to-rtr0
+  encapsulation dot1Q 10
+  ip address 10.100.10.1 255.255.255.0
  end
  wr
 
@@ -55,6 +92,14 @@ csr1000v-rtr-02
   description link-to-rtr3
   encapsulation dot1Q 32  
   ip address 10.100.32.2 255.255.255.0
+ interface g2.02
+  description link-to-rtr0
+  encapsulation dot1Q 2
+  ip address 10.100.2.2 255.255.255.0
+ interface g2.20
+  description link-to-rtr0
+  encapsulation dot1Q 20
+  ip address 10.100.20.2 255.255.255.0
  end
  wr
 
@@ -248,6 +293,10 @@ csr1000v-rtr-06
   description link-to-rtr4&6
   encapsulation dot1Q 11 
   ip address 10.100.11.6 255.255.255.0 
+ interface g2.21
+  description link-to-rtr7&8
+  encapsulation dot1Q 21
+  ip address 10.100.21.6 255.255.255.0
  end
  wr
 
@@ -272,5 +321,29 @@ csr1000v-rtr-07
   description link-to-rtr2&3&5
   encapsulation dot1Q 71
   ip address 10.100.71.7 255.255.255.0
+ interface g2.78
+  description link-to-rtr8
+  encapsulation dot1Q 78
+  ip address 10.100.78.7 255.255.255.0
+ interface g2.21
+  description link-to-rtr6&8
+  encapsulation dot1Q 21
+  ip address 10.100.21.8 255.255.255.0
+ end
+ wr
+
+ csr1000v-rtr-08
+ ena
+ config t
+ interface lo0
+  ip address 10.255.255.18 255.255.255.255
+ interface g2.78
+  description link-to-rtr7
+  encapsulation dot1Q 78
+  ip address 10.100.78.8 255.255.255.0
+ interface g2.21
+  description link-to-rtr6&7
+  encapsulation dot1Q 21
+  ip address 10.100.21.8 255.255.255.0
  end
  wr
