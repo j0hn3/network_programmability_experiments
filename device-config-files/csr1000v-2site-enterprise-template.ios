@@ -1,0 +1,41 @@
+config t
+!
+key chain OSPF
+ description OSPF Area 123
+ key 123
+   key-string 0 P@ssword123!
+   cryptographic-algorithm md5
+!
+key chain BFD
+ description BFD
+ key 123
+   key-string 0 P@ssword123!
+   cryptographic-algorithm md5
+!
+bfd-template single-hop OSPF
+ interval min-tx 750 min-rx 750 multiplier 5
+ authentication md5 keychain BFD
+!
+router ospf 123
+ !router-id 10.255.255.1#
+ auto-cost reference-bandwidth 100000
+!
+interface Loopback0
+ ip ospf 123 area 123
+!
+!
+! Update manually for each interface
+interface g2.20
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd 
+ ip ospf 123 area 123
+ bfd template OSPF
+!
+!
+!lower the cost of the lower numbered interfaces to create 2x rings between rtrs 0,1,2
+int g2.1
+ip ospf cost 50
+int g2.2
+ip ospf cost 50
+
