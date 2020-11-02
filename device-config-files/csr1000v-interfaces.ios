@@ -328,7 +328,7 @@ csr1000v-rtr-07
  interface g2.21
   description link-to-rtr6&8
   encapsulation dot1Q 21
-  ip address 10.100.21.8 255.255.255.0
+  ip address 10.100.21.7 255.255.255.0
  end
  wr
 
