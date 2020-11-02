@@ -4,10 +4,10 @@ service timestamps log datetime msec
 service password-encryption
 no platform punt-keepalive disable-kernel-core
 platform console auto
-hostname crs1000v-rtr-06
+hostname csr1000v-rtr-00
 boot-start-marker
 boot-end-marker
-enable secret 5 $1$Tz3d$Pa.qVpJ8A.Bn4pQ.ZG2CW.
+enable secret 5 $1$XokL$coYbXOXUVNFKvnaXpF9AN1
 no aaa new-model
 
 
@@ -16,36 +16,43 @@ ip domain name lab.net
 
 subscriber templating
 multilink bundle-name authenticated
-license udi pid CSR1000V sn 982NBK3L5ZT
+license udi pid CSR1000V sn 9D7JW4SDPZ1
 license boot level ax
 spanning-tree extend system-id
-username lab-admin privilege 15 password 7 15222B1F173D24362C62677152
+username lab-admin privilege 15 password 7 00343315174C04140B701E1D48
 redundancy
 ip ssh version 2
 ip scp server enable
 interface Loopback0
- ip address 10.255.255.16 255.255.255.0
+ ip address 10.255.255.10 255.255.255.255
 interface GigabitEthernet1
  description lab-mgmt
- ip address 172.16.1.16 255.255.255.0
+ ip address 172.16.1.10 255.255.255.0
  negotiation auto
 interface GigabitEthernet2
  description lab-data
  no ip address
  negotiation auto
-interface GigabitEthernet2.11
- description link-to-rtr4&6
- encapsulation dot1Q 11
- ip address 10.100.11.6 255.255.255.0
-interface GigabitEthernet2.18
- description link-to-rtr5&7
- encapsulation dot1Q 18
- ip address 10.100.18.6 255.255.255.0
-interface GigabitEthernet2.21
- description link-to-rtr7&8
+interface GigabitEthernet2.1
+ description link-to-rtr1
+ encapsulation dot1Q 1 native
+ ip address 10.100.1.10 255.255.255.0
+interface GigabitEthernet2.2
+ description link-to-rtr2
+ encapsulation dot1Q 2
+ ip address 10.100.2.10 255.255.255.0
+interface GigabitEthernet2.10
+ description ink-to-rtr1
  encapsulation dot1Q 21
- ip address 10.100.21.6 255.255.255.0
-virtual-service csr_mgmt
+ ip address 10.100.10.10 255.255.255.0
+interface GigabitEthernet2.11
+ description link-to-rtr1&4&6
+ encapsulation dot1Q 11
+ ip address 10.100.11.10 255.255.255.0
+interface GigabitEthernet2.20
+ description link-to-rtr2
+ encapsulation dot1Q 20
+ ip address 10.100.20.10 255.255.255.0
 ip forward-protocol nd
 no ip http server
 no ip http secure-server
@@ -53,19 +60,7 @@ kron occurrence KRONJOB in 1 recurring system-startup
  policy-list KRONPOLICY
 control-plane
 line con 0
-line vty 0
- exec-timeout 0 0
- privilege level 15
- login local
- transport input ssh
- transport output ssh
-line vty 1
- exec-timeout 0 0
- login local
- length 0
- transport input ssh
- transport output ssh
-line vty 2 4
+line vty 0 4
  exec-timeout 0 0
  privilege level 15
  login local

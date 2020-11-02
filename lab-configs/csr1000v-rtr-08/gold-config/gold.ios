@@ -4,48 +4,42 @@ service timestamps log datetime msec
 service password-encryption
 no platform punt-keepalive disable-kernel-core
 platform console auto
-hostname crs1000v-rtr-06
+hostname csr1000v-rtr-08
 boot-start-marker
 boot-end-marker
-enable secret 5 $1$Tz3d$Pa.qVpJ8A.Bn4pQ.ZG2CW.
+enable secret 5 $1$9.9/$YRNgxmfVoAiiQgHlEmSdd0
 no aaa new-model
 
 
-no ip domain lookup
 ip domain name lab.net
 
 subscriber templating
 multilink bundle-name authenticated
-license udi pid CSR1000V sn 982NBK3L5ZT
+license udi pid CSR1000V sn 936CC15VTZ7
 license boot level ax
 spanning-tree extend system-id
-username lab-admin privilege 15 password 7 15222B1F173D24362C62677152
+username lab-admin privilege 15 password 7 13353701181B0B382F757A6074
 redundancy
 ip ssh version 2
 ip scp server enable
 interface Loopback0
- ip address 10.255.255.16 255.255.255.0
+ ip address 10.255.255.18 255.255.255.255
 interface GigabitEthernet1
  description lab-mgmt
- ip address 172.16.1.16 255.255.255.0
+ ip address 172.16.1.18 255.255.255.0
  negotiation auto
 interface GigabitEthernet2
  description lab-data
  no ip address
  negotiation auto
-interface GigabitEthernet2.11
- description link-to-rtr4&6
- encapsulation dot1Q 11
- ip address 10.100.11.6 255.255.255.0
-interface GigabitEthernet2.18
- description link-to-rtr5&7
- encapsulation dot1Q 18
- ip address 10.100.18.6 255.255.255.0
 interface GigabitEthernet2.21
- description link-to-rtr7&8
+ description link-to-rtr6&7
  encapsulation dot1Q 21
- ip address 10.100.21.6 255.255.255.0
-virtual-service csr_mgmt
+ ip address 10.100.21.8 255.255.255.0
+interface GigabitEthernet2.78
+ description link-to-rtr7
+ encapsulation dot1Q 78
+ ip address 10.100.78.8 255.255.255.0
 ip forward-protocol nd
 no ip http server
 no ip http secure-server
@@ -53,19 +47,7 @@ kron occurrence KRONJOB in 1 recurring system-startup
  policy-list KRONPOLICY
 control-plane
 line con 0
-line vty 0
- exec-timeout 0 0
- privilege level 15
- login local
- transport input ssh
- transport output ssh
-line vty 1
- exec-timeout 0 0
- login local
- length 0
- transport input ssh
- transport output ssh
-line vty 2 4
+line vty 0 4
  exec-timeout 0 0
  privilege level 15
  login local

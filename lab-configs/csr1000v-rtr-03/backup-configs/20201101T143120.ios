@@ -4,10 +4,10 @@ service timestamps log datetime msec
 service password-encryption
 no platform punt-keepalive disable-kernel-core
 platform console auto
-hostname csr1000v-rtr-02
+hostname csr1000v-rtr-03
 boot-start-marker
 boot-end-marker
-enable secret 5 $1$mGya$cE0ZRgHJRAtyS8Bt2ewdq.
+enable secret 5 $1$6dEh$lDoSUezLWKsMoeFI3XiTy/
 no aaa new-model
 
 
@@ -16,55 +16,78 @@ ip domain name lab.net
 
 subscriber templating
 multilink bundle-name authenticated
-license udi pid CSR1000V sn 9Q192WNQFC2
-license boot level ax
+license udi pid CSR1000V sn 9WRH21JD7FD
 spanning-tree extend system-id
 username lab-admin privilege 15 password 7 097C6E1A0A1218000F5D56796A
 redundancy
 ip ssh version 2
 ip scp server enable
 interface Loopback0
- ip address 10.255.255.12 255.255.255.0
+ ip address 10.255.255.13 255.255.255.0
 interface GigabitEthernet1
  description lab-mgmt
- ip address 172.16.1.12 255.255.255.0
+ ip address 172.16.1.13 255.255.255.0
  negotiation auto
 interface GigabitEthernet2
  description lab-data
  no ip address
  negotiation auto
-interface GigabitEthernet2.2
- description link-to-rtr0
- encapsulation dot1Q 2
- ip address 10.100.2.2 255.255.255.0
-interface GigabitEthernet2.12
+interface GigabitEthernet2.13
  description link-to-rtr1
- encapsulation dot1Q 12
- ip address 10.100.12.2 255.255.255.0
+ encapsulation dot1Q 13
+ ip address 10.100.13.3 255.255.255.0
 interface GigabitEthernet2.17
- description link-to-rtr3&5&7
+ description link-to-rtr2&5&7
  encapsulation dot1Q 17
- ip address 10.100.17.2 255.255.255.0
-interface GigabitEthernet2.20
- description link-to-rtr0
- encapsulation dot1Q 20
- ip address 10.100.20.2 255.255.255.0
-interface GigabitEthernet2.21
- description ink-to-rtr1
- encapsulation dot1Q 21
- ip address 10.100.21.2 255.255.255.0
+ ip address 10.100.17.3 255.255.255.0
 interface GigabitEthernet2.23
- description link-to-rtr3
+ description link-to-rtr2
  encapsulation dot1Q 23
- ip address 10.100.23.2 255.255.255.0
+ ip address 10.100.23.3 255.255.255.0
+interface GigabitEthernet2.31
+ description link-to-rtr1
+ encapsulation dot1Q 31
+ ip address 10.100.31.3 255.255.255.0
 interface GigabitEthernet2.32
  description link-to-rtr3
  encapsulation dot1Q 32
- ip address 10.100.32.2 255.255.255.0
+ ip address 10.100.32.3 255.255.255.0
+interface GigabitEthernet2.34
+ description link-to-rtr4
+ encapsulation dot1Q 34
+ ip address 10.100.34.3 255.255.255.0
+interface GigabitEthernet2.35
+ description link-to-rtr5
+ encapsulation dot1Q 35
+ ip address 10.100.35.3 255.255.255.0
+interface GigabitEthernet2.43
+ description link-to-rtr4
+ encapsulation dot1Q 43
+ ip address 10.100.43.3 255.255.255.0
+interface GigabitEthernet2.53
+ description link-to-rtr5
+ encapsulation dot1Q 53
+ ip address 10.100.53.3 255.255.255.0
 interface GigabitEthernet2.71
- description link-to-rtr3&5&7
+ description link-to-rtr2&5&7
  encapsulation dot1Q 71
- ip address 10.100.71.2 255.255.255.0
+ ip address 10.100.71.3 255.255.255.0
+interface GigabitEthernet2.134
+ description link-to-rtr4
+ encapsulation dot1Q 134
+ ip address 10.100.134.3 255.255.255.0
+interface GigabitEthernet2.135
+ description link-to-rtr5
+ encapsulation dot1Q 135
+ ip address 10.100.135.3 255.255.255.0
+interface GigabitEthernet2.143
+ description link-to-rtr4
+ encapsulation dot1Q 143
+ ip address 10.100.143.3 255.255.255.0
+interface GigabitEthernet2.153
+ description link-to-rtr5
+ encapsulation dot1Q 153
+ ip address 10.100.153.3 255.255.255.0
 virtual-service csr_mgmt
 ip forward-protocol nd
 no ip http server

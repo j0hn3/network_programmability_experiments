@@ -17,15 +17,29 @@ ip domain name lab.net
 
 subscriber templating
 multilink bundle-name authenticated
+key chain BFD
+ description BFD
+ key 123
+   key-string 7 046B2B151C36435C0D48574453
+   cryptographic-algorithm md5
+key chain OSPF
+ description OSPF Area 123
+ key 123
+   key-string 7 12292504011C03162E7A767B72
+   cryptographic-algorithm md5
 license udi pid CSR1000V sn 9DIMDLAUYE0
 license boot level ax
 spanning-tree extend system-id
 username lab-admin privilege 15 password 7 073F015F5D1E16171343595F45
 redundancy
+bfd-template single-hop OSPF
+ interval min-tx 750 min-rx 750 multiplier 5
+ authentication md5 keychain BFD
 ip ssh version 2
 ip scp server enable
 interface Loopback0
- ip address 10.255.255.11 255.255.255.0
+ ip address 10.255.255.11 255.255.255.255
+ ip ospf 123 area 123
 interface GigabitEthernet1
  description lab-mgmt
  ip address 172.16.1.11 255.255.255.0
@@ -38,10 +52,21 @@ interface GigabitEthernet2.1
  description link-to-rtr0
  encapsulation dot1Q 1 native
  ip address 10.100.1.1 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 123 area 123
+ ip ospf cost 50
+ bfd template OSPF
 interface GigabitEthernet2.10
  description ink-to-rtr0
  encapsulation dot1Q 10
  ip address 10.100.10.1 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 123 area 123
+ bfd template OSPF
 interface GigabitEthernet2.11
  description link-to-rtr4&6
  encapsulation dot1Q 11
@@ -50,6 +75,12 @@ interface GigabitEthernet2.12
  description link-to-rtr2
  encapsulation dot1Q 12
  ip address 10.100.12.1 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 123 area 123
+ ip ospf cost 50
+ bfd template OSPF
 interface GigabitEthernet2.13
  description link-to-rtr3
  encapsulation dot1Q 13
@@ -58,10 +89,23 @@ interface GigabitEthernet2.21
  description ink-to-rtr2
  encapsulation dot1Q 21
  ip address 10.100.21.1 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 123 area 123
+ bfd template OSPF
 interface GigabitEthernet2.31
  description link-to-rtr3
  encapsulation dot1Q 31
  ip address 10.100.31.1 255.255.255.0
+router ospf 123
+ router-id 10.255.255.11
+ auto-cost reference-bandwidth 100000
+router bgp 65123
+ bgp router-id 10.255.255.11
+ bgp log-neighbor-changes
+ network 10.100.13.0 mask 255.255.255.0
+ neighbor 10.100.13.3 remote-as 123
 virtual-service csr_mgmt
 ip forward-protocol nd
 no ip http server

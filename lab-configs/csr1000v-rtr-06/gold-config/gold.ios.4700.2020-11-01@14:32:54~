@@ -41,10 +41,6 @@ interface GigabitEthernet2.18
  description link-to-rtr5&7
  encapsulation dot1Q 18
  ip address 10.100.18.6 255.255.255.0
-interface GigabitEthernet2.21
- description link-to-rtr7&8
- encapsulation dot1Q 21
- ip address 10.100.21.6 255.255.255.0
 virtual-service csr_mgmt
 ip forward-protocol nd
 no ip http server

@@ -39,3 +39,60 @@ ip ospf cost 50
 int g2.2
 ip ospf cost 50
 
+++++++++++
+
+key chain ISIS
+ description ISIS Area 123
+ key 123
+   key-string 0 P@ssword123!
+   cryptographic-algorithm md5
+!
+key chain BFD
+ description BFD
+ key 123
+   key-string 0 P@ssword123!
+   cryptographic-algorithm md5
+!
+bfd-template single-hop ISIS
+ interval min-tx 750 min-rx 750 multiplier 5
+ authentication md5 keychain BFD
+!
+!
+!
+router isis 123
+ net 49.0123.1025.5255.2500
+!
+interface Loopback0
+ ip router isis 123
+!
+!
+interface GigabitEthernet2.45
+ ip router isis 123
+ bfd template ISIS
+ isis network point-to-point 
+ isis authentication key-chain ISIS
+ isis bfd
+
+
+++++
+mpls ldp router-id Loopback0
+!
+router isis 123
+ mpls ldp autoconfig
+!
+vrf definition VPN_A
+ rd 65123:123
+ !
+ address-family ipv4
+  route-target export 65123:65123
+  route-target import 65123:65123
+ exit-address-family
+
+router bgp 123
+ bgp router-id 10.255.255.15
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+
+
+
+
