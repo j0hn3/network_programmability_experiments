@@ -1,0 +1,66 @@
+---
+  - name: Create New Gold - csr1000v
+    hosts: csr1000v
+    connection: local
+    gather_facts: False
+
+    vars:
+      timestamp: "{{ hostvars['localhost']['ansible_facts']['date_time']['iso8601_basic_short'] }}"
+      config_type: "2site-enterprise-gold"
+      config_name: "2site-gold.ios"
+      connection_details:
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        host: "{{ inventory_hostname }}"
+
+
+#https://docs.ansible.com/ansible/latest/collections/cisco/ios/ios_command_module.html#parameter-provider
+    tasks:
+      - name: Save gold.ios to jumphost 
+        cisco.ios.ios_command:
+          commands: show running-config | exclude !
+        register: config_data
+
+      #- debug: var='\n'.join(config_data.stdout)
+      #use to test output of what is being saved
+
+#https://www.mydailytutorials.com/ansible-create-directory/
+      - local_action:
+          module: file
+          path: "/home/lab-admin/lab-configs/{{inventory_hostname}}/{{config_type}}/"
+          state: directory
+
+#https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html
+      - local_action:
+          module: copy
+          content: "{{ '\n'.join(config_data.stdout) }}"
+          dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/{{config_type}}/{{config_name}}"
+          backup: yes
+
+#the following remove the first non-config lines of the show run output      
+      - name: Remove Building Configuration ... line from saved config file
+        lineinfile:
+          dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/{{config_type}}/{{config_name}}"
+          line: "Building configuration..."
+          state: absent
+
+      - name: Remove Current Configuration line from saved config file  
+        lineinfile:
+          dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/{{config_type}}/{{config_name}}"
+          regexp: "Current configuration .*"
+          state: absent
+
+      - name: Remove "version 15.5" line from saved config file
+        lineinfile:
+          dest: "/home/lab-admin/lab-configs/{{inventory_hostname}}/{{config_type}}/{{config_name}}"
+          line: "version 15.5"
+          state: absent          
+
+#https://docs.ansible.com/ansible/latest/collections/cisco/ios/ios_command_module.html#parameter-provider
+      - name: Replace gold.ios on bootflash
+        cisco.ios.ios_command:
+          commands: 
+            - 'delete /force bootflash:{{config_name}}'
+            - command: 'copy run bootflash:{{config_name}}'
+              prompt: 'Destination filename [{{config_name}}]?'
+              answer: '{{config_name}}'
