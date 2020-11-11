@@ -293,10 +293,10 @@ csr1000v-rtr-06
   description link-to-rtr4&6
   encapsulation dot1Q 11 
   ip address 10.100.11.6 255.255.255.0 
- interface g2.21
+ interface g2.221
   description link-to-rtr7&8
-  encapsulation dot1Q 21
-  ip address 10.100.21.6 255.255.255.0
+  encapsulation dot1Q 221
+  ip address 10.100.221.6 255.255.255.0
  end
  wr
 
@@ -325,10 +325,10 @@ csr1000v-rtr-07
   description link-to-rtr8
   encapsulation dot1Q 78
   ip address 10.100.78.7 255.255.255.0
- interface g2.21
+ interface g2.221
   description link-to-rtr6&8
-  encapsulation dot1Q 21
-  ip address 10.100.21.7 255.255.255.0
+  encapsulation dot1Q 221
+  ip address 10.100.221.7 255.255.255.0
  end
  wr
 
@@ -341,9 +341,9 @@ csr1000v-rtr-07
   description link-to-rtr7
   encapsulation dot1Q 78
   ip address 10.100.78.8 255.255.255.0
- interface g2.21
+ interface g2.221
   description link-to-rtr6&7
-  encapsulation dot1Q 21
-  ip address 10.100.21.8 255.255.255.0
+  encapsulation dot1Q 221
+  ip address 10.100.221.8 255.255.255.0
  end
  wr
