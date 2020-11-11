@@ -1,0 +1,125 @@
+
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+no platform punt-keepalive disable-kernel-core
+platform console auto
+hostname csr1000v-rtr-00
+boot-start-marker
+boot-end-marker
+enable secret 5 $1$XokL$coYbXOXUVNFKvnaXpF9AN1
+no aaa new-model
+
+
+no ip domain lookup
+ip domain name lab.net
+
+subscriber templating
+multilink bundle-name authenticated
+key chain BFD
+ description BFD
+ key 123
+   key-string 7 046B2B151C36435C0D48574453
+   cryptographic-algorithm md5
+key chain OSPF
+ description OSPF Area 123
+ key 123
+   key-string 7 0236244818110033481F5B4A44
+   cryptographic-algorithm md5
+license udi pid CSR1000V sn 9D7JW4SDPZ1
+license boot level ax
+spanning-tree extend system-id
+username lab-admin privilege 15 password 7 00343315174C04140B701E1D48
+redundancy
+bfd-template single-hop OSPF
+ interval min-tx 750 min-rx 750 multiplier 5
+ authentication md5 keychain BFD
+ip ssh version 2
+ip scp server enable
+interface Loopback0
+ ip address 10.255.255.10 255.255.255.255
+ ip ospf 123 area 123
+interface GigabitEthernet1
+ description lab-mgmt
+ ip address 172.16.1.10 255.255.255.0
+ negotiation auto
+interface GigabitEthernet2
+ description lab-data
+ no ip address
+ negotiation auto
+interface GigabitEthernet2.1
+ description link-to-rtr1
+ encapsulation dot1Q 1 native
+ ip address 10.100.1.10 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 123 area 123
+ ip ospf cost 50
+ bfd template OSPF
+interface GigabitEthernet2.2
+ description link-to-rtr2
+ encapsulation dot1Q 2
+ ip address 10.100.2.10 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 123 area 123
+ ip ospf cost 50
+ bfd template OSPF
+interface GigabitEthernet2.10
+ description ink-to-rtr1
+ encapsulation dot1Q 10
+ ip address 10.100.10.10 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 123 area 123
+ bfd template OSPF
+interface GigabitEthernet2.11
+ description link-to-rtr1&4&6
+ encapsulation dot1Q 11
+ ip address 10.100.11.10 255.255.255.0
+interface GigabitEthernet2.20
+ description link-to-rtr2
+ encapsulation dot1Q 20
+ ip address 10.100.20.10 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 123 area 123
+ bfd template OSPF
+router ospf 123
+ router-id 10.255.255.10
+ auto-cost reference-bandwidth 100000
+virtual-service csr_mgmt
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+kron occurrence KRONJOB in 1 recurring system-startup
+ policy-list KRONPOLICY
+control-plane
+line con 0
+line vty 0 4
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ transport input ssh
+ transport output ssh
+netconf ssh
+event manager applet EEM_SSH_Keygen
+ action 0.0 info type routername
+ action 0.1 set status "none"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "show ip ssh | include ^SSH"
+ action 2.1 regexp "([ED][^ ]+)" "$_cli_result" result status
+ action 3.0 if $status eq "Disabled"
+ action 3.1  cli command "configure terminal"
+ action 3.2  cli command "crypto key generate rsa modulus 1024 label $_info_routername"
+ action 3.3  cli command "end"
+ action 3.4 end
+event manager applet CLIaccounting
+ event cli pattern ".*" sync no skip no
+ action 1.0 syslog priority informational msg "$_cli_msg"
+ action 2.0 set _exit_status "1"
+end

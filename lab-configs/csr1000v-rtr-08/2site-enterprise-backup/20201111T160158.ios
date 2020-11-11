@@ -1,0 +1,93 @@
+
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+no platform punt-keepalive disable-kernel-core
+platform console auto
+hostname csr1000v-rtr-08
+boot-start-marker
+boot-end-marker
+enable secret 5 $1$9.9/$YRNgxmfVoAiiQgHlEmSdd0
+no aaa new-model
+
+
+ip domain name lab.net
+
+subscriber templating
+multilink bundle-name authenticated
+key chain BFD
+ description BFD
+ key 123
+   key-string 7 15222B1F173D24362C62677152
+   cryptographic-algorithm md5
+key chain OSPF
+ description OSPF Area 123
+ key 123
+   key-string 7 113939160405041E007B797769
+   cryptographic-algorithm md5
+license udi pid CSR1000V sn 936CC15VTZ7
+license boot level ax
+spanning-tree extend system-id
+username lab-admin privilege 15 password 7 13353701181B0B382F757A6074
+redundancy
+bfd-template single-hop OSPF
+ interval min-tx 750 min-rx 750 multiplier 5
+ authentication md5 keychain BFD
+ip ssh version 2
+ip scp server enable
+interface Loopback0
+ ip address 10.255.255.18 255.255.255.255
+ ip ospf 123 area 123
+interface GigabitEthernet1
+ description lab-mgmt
+ ip address 172.16.1.18 255.255.255.0
+ negotiation auto
+interface GigabitEthernet2
+ description lab-data
+ no ip address
+ negotiation auto
+interface GigabitEthernet2.21
+ description link-to-rtr6&7
+ encapsulation dot1Q 21
+ ip address 10.100.21.8 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf bfd
+ ip ospf 123 area 123
+ bfd template OSPF
+interface GigabitEthernet2.78
+ description link-to-rtr7
+ encapsulation dot1Q 78
+ ip address 10.100.78.8 255.255.255.0
+router ospf 123
+ auto-cost reference-bandwidth 100000
+virtual-service csr_mgmt
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+kron occurrence KRONJOB in 1 recurring system-startup
+ policy-list KRONPOLICY
+control-plane
+line con 0
+line vty 0 4
+ exec-timeout 0 0
+ privilege level 15
+ login local
+ transport input ssh
+ transport output ssh
+netconf ssh
+event manager applet EEM_SSH_Keygen
+ action 0.0 info type routername
+ action 0.1 set status "none"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "show ip ssh | include ^SSH"
+ action 2.1 regexp "([ED][^ ]+)" "$_cli_result" result status
+ action 3.0 if $status eq "Disabled"
+ action 3.1  cli command "configure terminal"
+ action 3.2  cli command "crypto key generate rsa modulus 1024 label $_info_routername"
+ action 3.3  cli command "end"
+ action 3.4 end
+event manager applet CLIaccounting
+ event cli pattern ".*" sync no skip no
+ action 1.0 syslog priority informational msg "$_cli_msg"
+ action 2.0 set _exit_status "1"
+end

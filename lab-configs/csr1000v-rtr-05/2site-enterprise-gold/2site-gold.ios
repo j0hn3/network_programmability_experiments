@@ -1,0 +1,190 @@
+
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+no platform punt-keepalive disable-kernel-core
+platform console auto
+hostname csr1000v-rtr-05
+boot-start-marker
+boot-end-marker
+vrf definition VPN_A
+ rd 65123:123
+ address-family ipv4
+  route-target export 65123:65123
+  route-target import 65123:65123
+ exit-address-family
+enable secret 5 $1$.Q80$V.Kdol9IRAbyIWAB6VGuv/
+no aaa new-model
+
+
+ip domain name lab.net
+
+subscriber templating
+mpls ldp advertise-labels for g2.45
+mpls ldp advertise-labels for g2.35
+mpls ldp advertise-labels for g2.53
+multilink bundle-name authenticated
+key chain BFD
+ description BFD
+ key 123
+   key-string 7 113939160405041E007B797769
+   cryptographic-algorithm md5
+key chain ISIS
+ description ISIS Area 123
+ key 123
+   key-string 7 053B261C325B411B1D5445414A
+   cryptographic-algorithm md5
+license udi pid CSR1000V sn 9FNMDHZME47
+license boot level ax
+spanning-tree extend system-id
+username lab-admin privilege 15 password 7 142732181F1325392079616663
+redundancy
+bfd-template single-hop ISIS
+ interval min-tx 750 min-rx 750 multiplier 5
+ authentication md5 keychain BFD
+ip ssh version 2
+ip scp server enable
+interface Loopback0
+ ip address 10.255.255.15 255.255.255.0
+ ip router isis 123
+interface GigabitEthernet1
+ description lab-mgmt
+ ip address 172.16.1.15 255.255.255.0
+ negotiation auto
+interface GigabitEthernet2
+ description lab-data
+ no ip address
+ negotiation auto
+interface GigabitEthernet2.17
+ description link-to-rtr2&3&7
+ encapsulation dot1Q 17
+ ip address 10.100.17.5 255.255.255.0
+interface GigabitEthernet2.18
+ description link-to-rtr6&7
+ encapsulation dot1Q 18
+ ip address 10.100.18.5 255.255.255.0
+interface GigabitEthernet2.35
+ description link-to-rtr3
+ encapsulation dot1Q 35
+ ip address 10.100.35.5 255.255.255.0
+ ip router isis 123
+ mpls ip
+ bfd template ISIS
+ isis network point-to-point 
+ isis authentication key-chain ISIS
+ isis bfd
+interface GigabitEthernet2.45
+ description link-to-rtr4
+ encapsulation dot1Q 45
+ ip address 10.100.45.5 255.255.255.0
+ ip router isis 123
+ mpls ip
+ bfd template ISIS
+ isis network point-to-point 
+ isis authentication key-chain ISIS
+ isis bfd
+interface GigabitEthernet2.53
+ description link-to-rtr3
+ encapsulation dot1Q 53
+ ip address 10.100.53.5 255.255.255.0
+ ip router isis 123
+ mpls ip
+ bfd template ISIS
+ isis network point-to-point 
+ isis metric 15
+ isis authentication key-chain ISIS
+ isis bfd
+interface GigabitEthernet2.54
+ description link-to-rtr4
+ encapsulation dot1Q 54
+ ip address 10.100.54.5 255.255.255.0
+interface GigabitEthernet2.57
+ description link-to-rtr7
+ encapsulation dot1Q 57
+ vrf forwarding VPN_A
+ ip address 10.100.57.5 255.255.255.0
+interface GigabitEthernet2.71
+ description link-to-rtr2&3&7
+ encapsulation dot1Q 71
+ ip address 10.100.71.5 255.255.255.0
+interface GigabitEthernet2.135
+ description link-to-rtr3
+ encapsulation dot1Q 135
+ ip address 10.100.135.5 255.255.255.0
+interface GigabitEthernet2.145
+ description link-to-rtr4
+ encapsulation dot1Q 145
+ ip address 10.100.145.5 255.255.255.0
+interface GigabitEthernet2.153
+ description link-to-rtr3
+ encapsulation dot1Q 153
+ ip address 10.100.153.5 255.255.255.0
+interface GigabitEthernet2.154
+ description link-to-rtr4
+ encapsulation dot1Q 154
+ ip address 10.100.154.5 255.255.255.0
+router isis 123
+ net 49.0123.1025.5255.2500
+router bgp 123
+ bgp router-id 10.255.255.15
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 10.255.255.14 remote-as 123
+ neighbor 10.255.255.14 update-source Loopback0
+ address-family ipv4
+ exit-address-family
+ address-family vpnv4
+  neighbor 10.255.255.14 activate
+  neighbor 10.255.255.14 send-community extended
+ exit-address-family
+ address-family ipv4 vrf VPN_A
+  redistribute connected route-map VPN_A_CONNECTED
+ exit-address-family
+virtual-service csr_mgmt
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+ip access-list standard g2.35
+ip access-list standard g2.45
+ip access-list standard g2.53
+ip prefix-list VPN_A_CONNECTED seq 5 permit 10.100.57.0/24
+kron occurrence KRONJOB in 1 recurring system-startup
+ policy-list KRONPOLICY
+route-map VPN_A_CONNECTED permit 10
+ match ip address prefix-list VPN_A_CONNECTED
+mpls ldp router-id Loopback0
+control-plane
+line con 0
+line vty 0
+ exec-timeout 0 0
+ login local
+ transport input ssh
+ transport output ssh
+line vty 1
+ exec-timeout 0 0
+ login local
+ length 0
+ transport input ssh
+ transport output ssh
+line vty 2 4
+ exec-timeout 0 0
+ login local
+ transport input ssh
+ transport output ssh
+netconf ssh
+event manager applet EEM_SSH_Keygen
+ action 0.0 info type routername
+ action 0.1 set status "none"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "show ip ssh | include ^SSH"
+ action 2.1 regexp "([ED][^ ]+)" "$_cli_result" result status
+ action 3.0 if $status eq "Disabled"
+ action 3.1  cli command "configure terminal"
+ action 3.2  cli command "crypto key generate rsa modulus 1024 label $_info_routername"
+ action 3.3  cli command "end"
+ action 3.4 end
+event manager applet CLIaccounting
+ event cli pattern ".*" sync no skip no
+ action 1.0 syslog priority informational msg "$_cli_msg"
+ action 2.0 set _exit_status "1"
+end

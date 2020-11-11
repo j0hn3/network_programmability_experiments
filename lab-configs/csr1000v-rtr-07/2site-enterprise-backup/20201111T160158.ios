@@ -1,0 +1,140 @@
+
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+no platform punt-keepalive disable-kernel-core
+platform console auto
+hostname csr1000v-rtr-07
+boot-start-marker
+boot-end-marker
+vrf definition FVRF_FOR_SP
+ rd 65123:65123
+ address-family ipv4
+ exit-address-family
+enable secret 5 $1$ERBj$CZQyXaXE5RNmA/qArUsU1.
+no aaa new-model
+
+
+no ip domain lookup
+ip domain name lab.net
+
+subscriber templating
+multilink bundle-name authenticated
+key chain BFD
+ description BFD
+ key 123
+   key-string 7 00343315174C04140B701E1D48
+   cryptographic-algorithm md5
+key chain OSPF
+ description OSPF Area 123
+ key 123
+   key-string 7 053B261C325B411B1D5445414A
+   cryptographic-algorithm md5
+license udi pid CSR1000V sn 98BSA7KT4MI
+license boot level ax
+spanning-tree extend system-id
+username lab-admin privilege 15 password 7 073F015F5D1E16171343595F45
+redundancy
+bfd-template single-hop OSPF
+ interval min-tx 750 min-rx 750 multiplier 5
+ authentication md5 keychain BFD
+ip ssh version 2
+ip scp server enable
+interface Loopback0
+ ip address 10.255.255.17 255.255.255.255
+ ip ospf 123 area 123
+interface Tunnel17
+ description to csr1000v-rtr-01
+ bandwidth 100000
+ ip address 10.255.17.1 255.255.255.254
+ ip ospf authentication key-chain OSPF
+ ip ospf bfd
+ ip ospf 123 area 123
+ bfd template OSPF
+ tunnel source 10.100.57.7
+ tunnel destination 10.100.13.1
+ tunnel key 17
+ tunnel vrf FVRF_FOR_SP
+interface Tunnel27
+ description to csr1000v-rtr-02
+ bandwidth 100000
+ ip address 10.255.27.1 255.255.255.254
+ ip ospf authentication key-chain OSPF
+ ip ospf bfd
+ ip ospf 123 area 123
+ bfd template OSPF
+ tunnel source 10.100.57.7
+ tunnel mode ipip
+ tunnel destination 10.100.23.2
+ tunnel key 27
+ tunnel vrf FVRF_FOR_SP
+interface GigabitEthernet1
+ description lab-mgmt
+ ip address 172.16.1.17 255.255.255.0
+ negotiation auto
+interface GigabitEthernet2
+ description lab-data
+ no ip address
+ negotiation auto
+interface GigabitEthernet2.17
+ description link-to-rtr2&3&5
+ encapsulation dot1Q 17
+ ip address 10.100.17.7 255.255.255.0
+interface GigabitEthernet2.18
+ description link-to-rtr5&7
+ encapsulation dot1Q 18
+ ip address 10.100.18.7 255.255.255.0
+interface GigabitEthernet2.21
+ description link-to-rtr6&8
+ encapsulation dot1Q 21
+ ip address 10.100.21.7 255.255.255.0
+ ip ospf authentication key-chain OSPF
+ ip ospf bfd
+ ip ospf 123 area 123
+ bfd template OSPF
+interface GigabitEthernet2.57
+ description link-to-rtr5
+ encapsulation dot1Q 57
+ vrf forwarding FVRF_FOR_SP
+ ip address 10.100.57.7 255.255.255.0
+interface GigabitEthernet2.71
+ description link-to-rtr2&3&5
+ encapsulation dot1Q 71
+ ip address 10.100.71.7 255.255.255.0
+interface GigabitEthernet2.78
+ description link-to-rtr8
+ encapsulation dot1Q 78
+ ip address 10.100.78.7 255.255.255.0
+router ospf 123
+ auto-cost reference-bandwidth 100000
+virtual-service csr_mgmt
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+ip route vrf FVRF_FOR_SP 0.0.0.0 0.0.0.0 10.100.57.5
+kron occurrence KRONJOB in 1 recurring system-startup
+ policy-list KRONPOLICY
+control-plane
+line con 0
+line vty 0 4
+ exec-timeout 0 0
+ login local
+ transport input ssh
+ transport output ssh
+netconf ssh
+event manager applet EEM_SSH_Keygen
+ action 0.0 info type routername
+ action 0.1 set status "none"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "show ip ssh | include ^SSH"
+ action 2.1 regexp "([ED][^ ]+)" "$_cli_result" result status
+ action 3.0 if $status eq "Disabled"
+ action 3.1  cli command "configure terminal"
+ action 3.2  cli command "crypto key generate rsa modulus 1024 label $_info_routername"
+ action 3.3  cli command "end"
+ action 3.4 end
+event manager applet CLIaccounting
+ event cli pattern ".*" sync no skip no
+ action 1.0 syslog priority informational msg "$_cli_msg"
+ action 2.0 set _exit_status "1"
+end
