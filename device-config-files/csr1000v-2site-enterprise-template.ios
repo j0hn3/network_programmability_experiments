@@ -17,7 +17,7 @@ bfd-template single-hop OSPF
  authentication md5 keychain BFD
 !
 router ospf 123
- !router-id 10.255.255.1#
+ !router-id 10.255.255.18
  auto-cost reference-bandwidth 100000
 !
 interface Loopback0
@@ -25,9 +25,8 @@ interface Loopback0
 !
 !
 ! Update manually for each interface
-interface g2.20
+interface g2.21
  ip ospf authentication key-chain OSPF
- ip ospf network point-to-point
  ip ospf bfd 
  ip ospf 123 area 123
  bfd template OSPF
@@ -93,6 +92,30 @@ router bgp 123
  bgp log-neighbor-changes
  no bgp default ipv4-unicast
 
+++++
 
+int tun 17
+ desc to csr1000v-rtr-07
+ ip address 10.255.17.0 255.255.255.254
+ tunnel dest 10.255.255.17
+ tunnel source 10.100.13.1
+ tunnel mode gre ip
+ ip ospf authentication key-chain OSPF
+ ip ospf bfd 
+ ip ospf 123 area 123
+ bfd template OSPF
+ bandwidth 100000
+ tunnel key 17
 
-
+int tun 27
+ ip address 10.255.27.0 255.255.255.254
+ desc to csr1000v-rtr-07
+ tunnel dest 10.255.255.17
+ tunnel source 10.100.23.2
+ tunnel mode ipip
+ ip ospf authentication key-chain OSPF
+ ip ospf bfd 
+ ip ospf 123 area 123
+ bfd template OSPF
+ bandwidth 100000
+ tunnel key 27
