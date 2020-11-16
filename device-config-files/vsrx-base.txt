@@ -1,6 +1,6 @@
 #### 1 manual entry at console to establish ssh to jump host ###
 configure
-set system host-name [###}
+set system host-name [###]
 set system root-authentication plain-text-password 
 set system login user lab-admin full-name lab-admin class super-user authentication plain-text-password 
 set interfaces fxp0 unit 0 family inet address 172.16.1.2[#]/24
