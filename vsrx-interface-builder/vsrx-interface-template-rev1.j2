@@ -1,0 +1,5 @@
+set interfaces ge-0/0/0 unit 0 family ethernet-switching vlan members link{{ LINK_ID }}
+set interfaces irb unit {{ LINK_ID }} family inet address 10.100.{{ LINK_ID }}.{{ LOCAL_ROUTER_NUMBER }}/24
+set vlans link{{ LINK_ID }} vlan-id {{ LINK_ID }}
+set vlans link{{ LINK_ID }} l3-interface irb.{{ LINK_ID }}
+!
