@@ -1,4 +1,4 @@
-Install Ansible on CENTOS8
+Install Ansible on CENTOS8 - ref https://www.centlinux.com/2020/05/install-ansible-semaphore-on-centos-8.html
 
 dnf install -y epel-release 
 dnf install -y ansible
